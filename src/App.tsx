@@ -1,16 +1,23 @@
-import reactLogo from "./assets/react.svg";
+import { Suspense, lazy } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
 import "./App.css";
+
+const HomePage = lazy(() => import("./pages/HomePage"));
+const OrganizerPage = lazy(() => import("./pages/OrganizerPage"));
 
 function App() {
   return (
-    <>
-      <div>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Bailamos</h1>
-    </>
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Router>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/organizer" element={<OrganizerPage />} />
+          </Routes>
+        </Router>
+      </Suspense>
+    </div>
   );
 }
 

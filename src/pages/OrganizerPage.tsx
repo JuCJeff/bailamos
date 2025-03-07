@@ -1,7 +1,11 @@
+import { HeadBar } from "@/components/HeadBar";
+import { Login } from "@/components/Login";
+
 export default function OrganizerPage() {
   return (
     <div>
-      <h1>Organizer Page</h1>
+      <HeadBar />
+      <Login />
     </div>
   );
 }

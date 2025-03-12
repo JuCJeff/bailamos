@@ -5,6 +5,7 @@ import "./App.css";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const OrganizerPage = lazy(() => import("./pages/OrganizerPage"));
+const LoginPage = lazy(() => import("./pages/LoginPage"));
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/organizer" element={<OrganizerPage />} />
+            <Route path="/login" element={<LoginPage />} />
           </Routes>
         </Router>
       </Suspense>

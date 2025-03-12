@@ -1,4 +1,4 @@
-import { HeadBar } from "@/components/HeadBar";
+import { HeadBar } from "@/components/layout";
 
 export default function HomePage() {
   return (

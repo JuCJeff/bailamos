@@ -8,10 +8,7 @@ import { auth } from "@/firebase/config";
 
 import { getFirebaseErrorMessage } from "@/helper/firebaseErrors";
 
-interface LoginFormData {
-  email: string;
-  password: string;
-}
+import type { LoginFormData } from "@/types/formTypes";
 
 const useEmailLogin = () => {
   const [loading, setLoading] = useState<boolean>(false);

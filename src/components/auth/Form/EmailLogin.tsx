@@ -5,12 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+import ForgotPassword from "./ForgotPassword";
+
 import { useEmailLogin } from "@/hooks";
 
-interface LoginFormData {
-  email: string;
-  password: string;
-}
+import type { LoginFormData } from "@/types/formTypes";
 
 const EmailLogin = () => {
   const {
@@ -52,19 +51,16 @@ const EmailLogin = () => {
             )}
           />
           {errors.email && (
-            <p className="text-red-500 text-sm text-start">{errors.email.message}</p>
+            <p className="text-red-500 text-sm text-start">
+              {errors.email.message}
+            </p>
           )}
         </div>
 
         <div className="grid gap-2">
-          <div className="flex items-center">
+          <div className="flex items-center justify-between">
             <Label htmlFor="password">Password</Label>
-            <a
-              href="#"
-              className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-            >
-              Forgot your password?
-            </a>
+            <ForgotPassword />
           </div>
           <Controller
             name="password"
@@ -76,7 +72,7 @@ const EmailLogin = () => {
             )}
           />
           {errors.password && (
-            <p className="text-red-500 text-sm">{errors.password.message}</p>
+            <p className="text-red-500 text-sm text-start">{errors.password.message}</p>
           )}
         </div>
 

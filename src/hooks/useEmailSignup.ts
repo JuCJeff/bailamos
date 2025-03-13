@@ -10,13 +10,7 @@ import { getFirebaseErrorMessage } from "@/helper/firebaseErrors";
 
 import { auth, db } from "@/firebase/config";
 
-interface SignUpFormData {
-  email: string;
-  firstName: string;
-  lastName: string;
-  password: string;
-  confirmPassword: string;
-}
+import type { SignUpFormData } from "@/types/formTypes";
 
 const useEmailSignUp = () => {
   const [loading, setLoading] = useState<boolean>(false);

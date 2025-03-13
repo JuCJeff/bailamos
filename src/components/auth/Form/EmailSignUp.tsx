@@ -7,13 +7,7 @@ import { Label } from "@/components/ui/label";
 
 import { useEmailSignUp } from "@/hooks";
 
-interface SignUpFormData {
-  email: string;
-  firstName: string;
-  lastName: string;
-  password: string;
-  confirmPassword: string;
-}
+import type { SignUpFormData } from "@/types/formTypes";
 
 const EmailSignUp = () => {
   const {
@@ -152,7 +146,9 @@ const EmailSignUp = () => {
         </Button>
 
         {/* Display error if any */}
-        {error && <p className="text-red-500 text-sm text-start mt-2">{error}</p>}
+        {error && (
+          <p className="text-red-500 text-sm text-start mt-2">{error}</p>
+        )}
       </div>
     </form>
   );

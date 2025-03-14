@@ -31,7 +31,7 @@ const useEmailSignUp = () => {
       );
       const user = userCredential.user;
 
-      await setDoc(doc(db, "users", user.uid), {
+      await setDoc(doc(db, "organizers", user.uid), {
         userId: user.uid,
         email: user.email,
         firstName,

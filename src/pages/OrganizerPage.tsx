@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 
 import { HeadBar } from "@/components/layout";
 import { LogOutButton } from "@/components/auth";
+import { Dashboard } from "@/components/organizer";
 
 export default function OrganizerPage() {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ export default function OrganizerPage() {
   return (
     <div>
       <HeadBar />
+      <Dashboard />
       <LogOutButton />
     </div>
   );

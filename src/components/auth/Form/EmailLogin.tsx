@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 
 import ForgotPassword from "./ForgotPassword";
 
-import { useEmailLogin } from "@/hooks";
+import { useEmailLogin } from "@/hooks/auth";
 
 import type { LoginFormData } from "@/types/formTypes";
 

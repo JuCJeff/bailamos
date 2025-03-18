@@ -27,7 +27,10 @@ const useGoogleLogin = () => {
 
       if (userId) {
         const idToken = await user.getIdToken();
-        Cookies.set("auth_token", idToken, { expires: 30 });
+        Cookies.set("auth_token", idToken, {
+          expires: 30,
+          secure: true,
+        });
 
         setSuccess(true);
         navigate("/organizer");

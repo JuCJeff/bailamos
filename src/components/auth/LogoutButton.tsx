@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 
-import { useSignOut } from "@/hooks";
+import { useSignOut } from "@/hooks/auth";
 
 const LogOutButton = () => {
   const { handleSignOut } = useSignOut();

@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 
-import { usePasswordResetEmail } from "@/hooks";
+import { usePasswordResetEmail } from "@/hooks/auth";
 
 import type { ForgotPasswordFormData } from "@/types/formTypes";
 

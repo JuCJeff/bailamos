@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-import { useEmailSignUp } from "@/hooks";
+import { useEmailSignUp } from "@/hooks/auth";
 
 import type { SignUpFormData } from "@/types/formTypes";
 

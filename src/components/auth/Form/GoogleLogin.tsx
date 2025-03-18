@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/sonner";
 import { Loader2 } from "lucide-react";
 
-import { useGoogleLogin } from "@/hooks";
+import { useGoogleLogin } from "@/hooks/auth";
 
 const GoogleLogin = () => {
   const { loading, error, success, handleGoogleLogin } = useGoogleLogin();

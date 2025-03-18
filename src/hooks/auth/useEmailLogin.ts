@@ -18,7 +18,6 @@ const useEmailLogin = () => {
 
   const handleEmailLogin = async (data: LoginFormData) => {
     try {
-      // Sign in with email and password
       const { email, password } = data;
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -28,7 +27,10 @@ const useEmailLogin = () => {
       const user = userCredential.user;
 
       const idToken = await user.getIdToken();
-      Cookies.set("auth_token", idToken, { expires: 30 });
+      Cookies.set("auth_token", idToken, {
+        expires: 30,
+        secure: true,
+      });
 
       navigate("/organizer");
     } catch (err: unknown) {

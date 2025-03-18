@@ -15,8 +15,8 @@ const Dashboard = ({
           <CardTitle className="text-2xl">Organizer Dashboard</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex min-h-full w-full items-center justify-center p-2 max-sm:p-4">
-            <div className="w-full max-w-sm">
+          <div className="flex min-h-full w-full items-center justify-center p-2 max-sm:p-0">
+            <div className="w-full max-w-sm justify-center">
               <Tabs defaultValue="create-post" className="w-full">
                 <TabsList className="grid w-full grid-cols-3">
                   <TabsTrigger value="create-post">Create Post</TabsTrigger>

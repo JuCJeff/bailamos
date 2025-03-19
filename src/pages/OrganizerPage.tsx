@@ -11,7 +11,6 @@ export default function OrganizerPage() {
 
   useEffect(() => {
     const authToken = Cookies.get("auth_token");
-    console.log(authToken);
 
     if (!authToken) {
       navigate("/login");

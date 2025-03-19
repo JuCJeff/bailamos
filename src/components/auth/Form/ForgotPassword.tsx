@@ -32,8 +32,6 @@ const ForgotPassword = () => {
   const onSubmit = async (data: ForgotPasswordFormData) => {
     await handlePasswordResetEmail(data);
     setIsSubmitted(true);
-
-    console.log("Reset email sent to:", data.email);
   };
 
   const handleForgotPasswordSubmit = (e: React.FormEvent) => {

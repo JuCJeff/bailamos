@@ -13,4 +13,30 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  define: {
+    "process.env": process.env,
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            if (id.includes("@react-google-maps")) {
+              return "google-maps"; // Separate Google Maps
+            }
+            if (id.includes("firebase")) {
+              return "firebase"; // Separate Firebase
+            }
+            if (id.includes("react")) {
+              return "react"; // Separate React & React-DOM
+            }
+            if (id.includes("shadcn") || id.includes("@radix-ui")) {
+              return "shadcn-ui"; // Separate ShadCN UI components
+            }
+            return "vendor"; // Other third-party libraries
+          }
+        },
+      },
+    },
+  },
 });

@@ -15,7 +15,7 @@ import { darkModeStyle } from "@/data/googleMapConfigs";
 import type { EventFormValues } from "./CreatePost";
 import type { LocationDetails } from "@/types/eventTypes";
 
-const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || "";;
 
 type GoogleMapsLocationProps = {
   control: Control<EventFormValues>;

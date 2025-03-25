@@ -23,6 +23,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 import EventDate from "./EventDate";
 import ImageUpload from "./ImageUpload";
+import GoogleMapsLocation from "./GoogleMapLocation";
 
 import { music } from "@/data/event";
 
@@ -33,9 +34,20 @@ const eventSchema = z.object({
   description: z.string().optional(),
   image: z.instanceof(File).optional(),
   music: z.array(z.string()).nonempty("Select at least one category"),
+  location: z
+    .object({
+      propertyName: z.string().optional(),
+      address: z.string().optional(),
+      city: z.string().optional(),
+      state: z.string().optional(),
+      googleMapsUrl: z.string().optional(),
+      lat: z.number().optional(),
+      lng: z.number().optional(),
+    })
+    .optional(),
 });
 
-type EventFormValues = z.infer<typeof eventSchema>;
+export type EventFormValues = z.infer<typeof eventSchema>;
 
 const CreatePost = ({
   className,
@@ -46,7 +58,7 @@ const CreatePost = ({
 
   const form = useForm<EventFormValues>({
     resolver: zodResolver(eventSchema),
-    defaultValues: { music: ["bachata", "salsa"] },
+    defaultValues: { music: ["bachata", "salsa"], location: {} },
   });
 
   const onSubmit = async (data: EventFormValues) => {
@@ -66,6 +78,7 @@ const CreatePost = ({
       description: data.description,
       price: data.price,
       music: data.music,
+      location: data.location,
       organizerId: "",
       createdAt: serverTimestamp(),
     });
@@ -94,6 +107,21 @@ const CreatePost = ({
                     <FormLabel>Title</FormLabel>
                     <FormControl>
                       <Input placeholder="Dance Social" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Location Field */}
+              <FormField
+                control={form.control}
+                name="location"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Event Location</FormLabel>
+                    <FormControl>
+                      <GoogleMapsLocation control={form.control} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

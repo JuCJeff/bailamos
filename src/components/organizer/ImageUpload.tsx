@@ -1,3 +1,4 @@
+import { useRef, useEffect, useState } from "react";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 
 import { Button } from "@/components/ui/button";
@@ -8,6 +9,23 @@ interface ImageUploadProps {
 }
 
 const ImageUpload = ({ value, onChange }: ImageUploadProps) => {
+  const [preview, setPreview] = useState<string | null>(null);
+  // Store image preview URL in useRef to prevent unnecessary re-renders
+  const imagePreviewUrl = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (value) {
+      const url = URL.createObjectURL(value);
+      imagePreviewUrl.current = url;
+      setPreview(url);
+    }
+    return () => {
+      if (imagePreviewUrl.current) {
+        URL.revokeObjectURL(imagePreviewUrl.current);
+      }
+    };
+  }, [value]);
+
   const onImageChange = (ImageList: ImageListType) => {
     const file = ImageList[0]?.file || undefined;
     onChange(file);
@@ -15,9 +33,9 @@ const ImageUpload = ({ value, onChange }: ImageUploadProps) => {
 
   return (
     <ImageUploading
-      multiple={false} // Only allow 1 image
+      multiple={false}
       value={
-        value ? [{ file: value, data_url: URL.createObjectURL(value) }] : []
+        value ? [{ file: value, data_url: imagePreviewUrl.current ?? "" }] : []
       }
       onChange={onImageChange}
       dataURLKey="data_url"
@@ -35,11 +53,7 @@ const ImageUpload = ({ value, onChange }: ImageUploadProps) => {
             type="button"
             style={
               isDragging
-                ? {
-                    backgroundColor: "limegreen",
-                    transitionDuration: "250ms",
-                    transitionTimingFunction: "ease-in-out",
-                  }
+                ? { backgroundColor: "limegreen", transitionDuration: "250ms" }
                 : undefined
             }
             onClick={onImageUpload}
@@ -50,7 +64,7 @@ const ImageUpload = ({ value, onChange }: ImageUploadProps) => {
           {imageList.map((image, index) => (
             <div key={image.data_url}>
               <img
-                src={image["data_url"]}
+                src={preview ?? undefined}
                 alt="event-image"
                 className="rounded-2xl"
               />

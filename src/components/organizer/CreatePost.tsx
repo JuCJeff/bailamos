@@ -23,7 +23,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 import EventDate from "./EventDate";
 import ImageUpload from "./ImageUpload";
-import GoogleMapsLocation from "./GoogleMapLocation";
+import GoogleMapLocation from "./GoogleMapLocation";
 
 import { music } from "@/data/event";
 
@@ -121,7 +121,7 @@ const CreatePost = ({
                   <FormItem>
                     <FormLabel>Event Location</FormLabel>
                     <FormControl>
-                      <GoogleMapsLocation control={form.control} {...field} />
+                      <GoogleMapLocation control={form.control} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

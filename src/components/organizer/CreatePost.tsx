@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { db, storage } from "@/firebase/config";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -20,34 +19,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { eventSchema, EventFormValues } from "@/schemas/eventSchema";
 
 import EventDate from "./EventDate";
 import ImageUpload from "./ImageUpload";
 import GoogleMapLocation from "./GoogleMapLocation";
+import MusicPercentageField from "./MusicPercentageField";
+
+import { DateTimePicker } from "./DateTimePicker";
 
 import { music } from "@/data/event";
-
-const eventSchema = z.object({
-  title: z.string().min(3, "Title is required"),
-  date: z.date(),
-  price: z.number(),
-  description: z.string().optional(),
-  image: z.instanceof(File).optional(),
-  music: z.array(z.string()).nonempty("Select at least one category"),
-  location: z
-    .object({
-      propertyName: z.string().optional(),
-      address: z.string().optional(),
-      city: z.string().optional(),
-      state: z.string().optional(),
-      googleMapsUrl: z.string().optional(),
-      lat: z.number().optional(),
-      lng: z.number().optional(),
-    })
-    .optional(),
-});
-
-export type EventFormValues = z.infer<typeof eventSchema>;
 
 const CreatePost = ({
   className,
@@ -74,6 +55,8 @@ const CreatePost = ({
     await addDoc(collection(db, "events"), {
       title: data.title,
       date: data.date,
+      startTime: data.startTime,
+      endTime: data.endTime,
       imageUrl, // Save the Firestore URL instead of the File
       description: data.description,
       price: data.price,
@@ -104,9 +87,9 @@ const CreatePost = ({
                 name="title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Title</FormLabel>
+                    <FormLabel htmlFor="title">Title</FormLabel>
                     <FormControl>
-                      <Input placeholder="Dance Social" {...field} />
+                      <Input id="title" placeholder="Dance Social" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -119,7 +102,7 @@ const CreatePost = ({
                 name="location"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Event Location</FormLabel>
+                    <FormLabel htmlFor="location">Event Location</FormLabel>
                     <FormControl>
                       <GoogleMapLocation control={form.control} {...field} />
                     </FormControl>
@@ -128,20 +111,37 @@ const CreatePost = ({
                 )}
               />
 
+              {/* Start Time Field */}
+              <DateTimePicker
+                form={form}
+                label="Start time"
+                formFieldName="startTime"
+              />
+
+              {/* Start Time Field */}
+              <DateTimePicker
+                form={form}
+                label="End time"
+                formFieldName="endTime"
+              />
+
               {/* Date Field */}
               <FormField
                 control={form.control}
                 name="date"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Date</FormLabel>
+                    <FormLabel htmlFor="date" id="date-label">
+                      Date
+                    </FormLabel>
                     <FormControl>
                       <EventDate
                         value={field.value}
                         onChange={field.onChange}
+                        aria-describedby="date-error"
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage id="date-error" />
                   </FormItem>
                 )}
               />
@@ -189,12 +189,13 @@ const CreatePost = ({
                   name="price"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Price</FormLabel>
+                      <FormLabel htmlFor="price">Price</FormLabel>
                       <FormControl>
                         <div className="flex items-center">
                           <span className="pe-1">$</span>
                           <Input
                             placeholder="Price"
+                            id="price"
                             type="number"
                             value={field.value || ""}
                             onChange={(e) => {
@@ -268,6 +269,8 @@ const CreatePost = ({
                 ))}
                 <FormMessage />
               </FormItem>
+
+              <MusicPercentageField />
 
               <Button type="submit" disabled={loading}>
                 {loading ? "Submitting..." : "Post Event"}

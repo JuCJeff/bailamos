@@ -12,10 +12,10 @@ import { Input } from "@/components/ui/input";
 
 import { darkModeStyle } from "@/data/googleMapConfigs";
 
-import type { EventFormValues } from "./CreatePost";
+import type { EventFormValues } from "@/schemas/eventSchema";
 import type { LocationDetails } from "@/types/eventTypes";
 
-const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || "";;
+const libraries: ("places" | "marker")[] = ["places", "marker"];
 
 type GoogleMapsLocationProps = {
   control: Control<EventFormValues>;
@@ -41,8 +41,8 @@ const GoogleMapLocation = ({ control, name }: GoogleMapsLocationProps) => {
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
 
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: API_KEY,
-    libraries: ["places"],
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY || "",
+    libraries: libraries,
   });
 
   const handlePlaceChanged = (onChange: (value: LocationDetails) => void) => {
@@ -86,7 +86,11 @@ const GoogleMapLocation = ({ control, name }: GoogleMapsLocationProps) => {
             onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
             onPlaceChanged={() => handlePlaceChanged(field.onChange)}
           >
-            <Input placeholder="Search for a location..." className="w-full" />
+            <Input
+              id="location"
+              placeholder="Search for a location..."
+              className="w-full"
+            />
           </Autocomplete>
 
           {/* Map Container */}

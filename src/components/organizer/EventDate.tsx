@@ -31,6 +31,7 @@ const EventDate = ({ value, onChange }: EventDateProps) => {
             "w-[240px] justify-start text-left font-normal",
             !value && "text-muted-foreground"
           )}
+          aria-labelledby="date-label"
         >
           <CalendarIcon />
           {value ? format(value, "PPP") : <span>Pick a date</span>}
@@ -62,6 +63,7 @@ const EventDate = ({ value, onChange }: EventDateProps) => {
             onSelect={(day) => {
               if (day) onChange(day);
             }}
+            aria-label="Select a date"
           />
         </div>
       </PopoverContent>

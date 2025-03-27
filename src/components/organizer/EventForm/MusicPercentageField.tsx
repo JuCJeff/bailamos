@@ -18,7 +18,7 @@ const MusicPercentageField = () => {
       name="musicPercentages"
       render={({ field }) => (
         <FormItem className="space-y-2">
-          <FormLabel className="text-base">Music Breakdown</FormLabel>
+          <FormLabel>Music Breakdown</FormLabel>
           {selectedMusic.length === 0 ? (
             <p className="text-start text-sm text-gray-500">
               No music categories selected

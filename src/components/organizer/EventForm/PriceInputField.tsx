@@ -53,7 +53,7 @@ const PriceInputField = ({ control, name }: PriceInputFieldProps) => {
                 <div className="flex items-center">
                   <span className="pe-1">$</span>
                   <Input
-                    placeholder="Price"
+                    placeholder="0"
                     id="price"
                     type="number"
                     value={value || ""}

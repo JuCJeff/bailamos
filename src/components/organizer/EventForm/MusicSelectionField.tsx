@@ -25,7 +25,7 @@ const MusicSelectionField = ({ control, name }: MusicSelectionFieldProps) => {
 
   return (
     <FormItem>
-      <FormLabel className="text-base">Music</FormLabel>
+      <FormLabel>Music</FormLabel>
       {music.map((item) => (
         <div key={item.id} className="flex items-center gap-2">
           <Checkbox

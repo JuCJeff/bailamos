@@ -2,7 +2,6 @@ import { z } from "zod";
 
 export const eventSchema = z.object({
   title: z.string().min(3, "Title is required"),
-  date: z.date(),
   startTime: z.date({
     required_error: "A date and time is required.",
   }),

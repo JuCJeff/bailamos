@@ -1,17 +1,55 @@
 import { useRef, useEffect, useState } from "react";
 import ImageUploading, { ImageListType } from "react-images-uploading";
+import { Control } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
+import {
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+} from "@/components/ui/form";
+
+import type { EventFormValues } from "@/schemas/eventSchema";
+
+interface ImageUploadFieldProps {
+  control: Control<EventFormValues>;
+  name: "image";
+}
+
+const ImageUploadField = ({ control, name }: ImageUploadFieldProps) => {
+  return (
+    <FormField
+      control={control}
+      name={name}
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel htmlFor="imageUpload">Upload Image</FormLabel>
+          <FormControl>
+            <ImageUpload
+              id="imageUpload"
+              value={field.value || undefined}
+              onChange={field.onChange}
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+};
 
 interface ImageUploadProps {
+  id: string;
   value?: File;
   onChange: (file?: File) => void;
 }
 
-const ImageUpload = ({ value, onChange }: ImageUploadProps) => {
+const ImageUpload = ({ id, value, onChange }: ImageUploadProps) => {
   const [preview, setPreview] = useState<string | null>(null);
-  // Store image preview URL in useRef to prevent unnecessary re-renders
   const imagePreviewUrl = useRef<string | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     if (value) {
@@ -49,11 +87,27 @@ const ImageUpload = ({ value, onChange }: ImageUploadProps) => {
         dragProps,
       }) => (
         <div className="flex flex-col gap-4">
+          {/* Hidden File Input for Accessibility */}
+          <input
+            id={id}
+            type="file"
+            ref={inputRef}
+            className="hidden"
+            onChange={(e) => {
+              if (e.target.files?.[0]) {
+                onChange(e.target.files[0]);
+              }
+            }}
+          />
+
           <Button
             type="button"
             style={
               isDragging
-                ? { backgroundColor: "limegreen", transitionDuration: "250ms" }
+                ? {
+                    backgroundColor: "limegreen",
+                    transitionDuration: "250ms",
+                  }
                 : undefined
             }
             onClick={onImageUpload}
@@ -61,6 +115,7 @@ const ImageUpload = ({ value, onChange }: ImageUploadProps) => {
           >
             Click or Drop image here
           </Button>
+
           {imageList.map((image, index) => (
             <div key={image.data_url}>
               <img
@@ -84,4 +139,4 @@ const ImageUpload = ({ value, onChange }: ImageUploadProps) => {
   );
 };
 
-export default ImageUpload;
+export default ImageUploadField;

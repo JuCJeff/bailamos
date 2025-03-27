@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import CreatePost from "./CreatePost";
+import { EventForm } from "./EventForm";
 import Profile from "./Profile";
 
 const Dashboard = ({
@@ -25,7 +25,7 @@ const Dashboard = ({
                   <TabsTrigger value="profile">Profile</TabsTrigger>
                 </TabsList>
                 <TabsContent value="create-post">
-                  <CreatePost />
+                  <EventForm />
                 </TabsContent>
                 <TabsContent value="post">Previous posts</TabsContent>
                 <TabsContent value="profile">

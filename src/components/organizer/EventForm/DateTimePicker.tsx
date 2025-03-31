@@ -94,7 +94,7 @@ export function DateTimePicker({
       control={form.control}
       name={formFieldName}
       render={({ field }) => (
-        <FormItem className="flex flex-col">
+        <FormItem className="flex flex-col text-start">
           <FormLabel>{label}</FormLabel>
           <Popover>
             <PopoverTrigger asChild>

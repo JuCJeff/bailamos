@@ -1,4 +1,4 @@
-import { Control, useController } from "react-hook-form";
+import { Control, useController, useFormContext } from "react-hook-form";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -12,6 +12,7 @@ interface MusicSelectionFieldProps {
 }
 
 const MusicSelectionField = ({ control, name }: MusicSelectionFieldProps) => {
+  const { getValues, setValue } = useFormContext();
   const {
     field: { value, onChange },
   } = useController({ name, control });
@@ -21,6 +22,14 @@ const MusicSelectionField = ({ control, name }: MusicSelectionFieldProps) => {
       ? [...(value || []), itemId]
       : value?.filter((id: string) => id !== itemId) || [];
     onChange(newSelectedMusic);
+
+    if (!checked) {
+      const musicPercentages = getValues("musicPercentages") || {};
+      const updatedMusicPercentages = Object.fromEntries(
+        Object.entries(musicPercentages).filter(([key]) => key !== itemId)
+      );
+      setValue("musicPercentages", updatedMusicPercentages);
+    }
   };
 
   return (

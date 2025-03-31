@@ -47,7 +47,7 @@ const PriceInputField = ({ control, name }: PriceInputFieldProps) => {
           control={control}
           name={name}
           render={() => (
-            <FormItem>
+            <FormItem className="text-start">
               <FormLabel htmlFor="price">Price</FormLabel>
               <FormControl>
                 <div className="flex items-center">

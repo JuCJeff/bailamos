@@ -18,9 +18,5 @@ export const music = [
   {
     id: "zouk",
     label: "Zouk",
-  },
-  {
-    id: "others",
-    label: "Others",
-  },
+  }
 ]

@@ -24,10 +24,10 @@ import ImageUpload from "./ImageUpload";
 import GoogleMapLocation from "./GoogleMapLocation";
 import PriceInputField from "./PriceInputField";
 import MusicPercentageField from "./MusicPercentageField";
-
 import { DateTimePicker } from "./DateTimePicker";
-
 import MusicSelectionField from "./MusicSelectionField";
+
+import { music } from "@/data/event";
 
 const EventForm = ({
   className,
@@ -37,7 +37,22 @@ const EventForm = ({
 
   const form = useForm<EventFormValues>({
     resolver: zodResolver(eventSchema),
-    defaultValues: { music: ["bachata", "salsa"], location: {} },
+    defaultValues: {
+      music: ["bachata", "salsa"],
+      location: {},
+      musicPercentages: {
+        ...Object.fromEntries(
+          music.map((item) => [
+            item.id,
+            {
+              name: item.label,
+              percentage: item.id === "bachata" || item.id === "salsa" ? 50 : 0,
+            },
+          ])
+        ),
+        others: { name: "Others", percentage: 0 }, // ✅ Adding "others" properly
+      },
+    },
   });
 
   const onSubmit = async (data: EventFormValues) => {
@@ -58,6 +73,7 @@ const EventForm = ({
       description: data.description,
       price: data.price,
       music: data.music,
+      musicPercentages: data.musicPercentages,
       location: data.location,
       organizerId: "",
       createdAt: serverTimestamp(),
@@ -83,7 +99,7 @@ const EventForm = ({
                 control={form.control}
                 name="title"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="text-start">
                     <FormLabel htmlFor="title">Title</FormLabel>
                     <FormControl>
                       <Input id="title" placeholder="Dance Social" {...field} />
@@ -121,10 +137,7 @@ const EventForm = ({
                   <FormItem>
                     <FormLabel>Description</FormLabel>
                     <FormControl>
-                      <Textarea
-                        placeholder="Type the event description here"
-                        {...field}
-                      />
+                      <Textarea {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -139,6 +152,25 @@ const EventForm = ({
 
               {/* Music Percentage Field */}
               <MusicPercentageField />
+
+              {/* Additional Link Field */}
+              <FormField
+                control={form.control}
+                name="link"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Link</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="event link (optional)"
+                        aria-label="link for additional details"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
               <Button type="submit" disabled={loading}>
                 {loading ? "Submitting..." : "Post Event"}

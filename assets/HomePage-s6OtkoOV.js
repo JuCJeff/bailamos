@@ -1,0 +1,1 @@
+import{j as r}from"./react-CzuZiG-A.js";import{H as o}from"./HeadBar-CVsD4YXk.js";import"./vendor-Dkcwaizg.js";import"./shadcn-ui-BA32w1ww.js";import"./index-DidFuIsf.js";function p(){return r.jsx("div",{children:r.jsx(o,{})})}export{p as default};

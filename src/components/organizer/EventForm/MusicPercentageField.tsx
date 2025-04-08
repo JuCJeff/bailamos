@@ -47,55 +47,43 @@ const MusicPercentageField = () => {
       }
     }
 
-    trigger("musicPercentages"); // Revalidate form fields
+    trigger("musicPercentages");
   }, [musicPercentages, selectedMusic, setValue, trigger]);
 
   useEffect(() => {
-    recalculateOthers();
-  }, [musicPercentages, recalculateOthers]);
+    selectedMusic.forEach((key) => {
+      if (!musicPercentages[key]) {
+        setValue(`musicPercentages.${key}`, {
+          name: music.find((m) => m.id === key)?.label ?? key,
+          percentage: key === "bachata" || key === "salsa" ? 50 : 0,
+        });
+      }
 
-  useEffect(() => {
-    const allKeys = Object.keys(musicPercentages);
+      setTempValues((prev) => ({
+        ...prev,
+        [key]: `${key === "bachata" || key === "salsa" ? 50 : 0}`,
+      }));
+    });
 
-    const toRemove = allKeys.filter(
-      (key) =>
-        key !== "others" &&
-        !selectedMusic.includes(key) &&
-        key !== "bachata" &&
-        key !== "salsa"
+    const deselectedKeys = Object.keys(musicPercentages).filter(
+      (key) => key !== "others" && !selectedMusic.includes(key)
     );
 
-    toRemove.forEach((key) => {
+    deselectedKeys.forEach((key) => {
       setValue(`musicPercentages.${key}`, {
         name: music.find((m) => m.id === key)?.label ?? key,
         percentage: 0,
       });
-
       setTempValues((prev) => ({
         ...prev,
         [key]: "0",
       }));
     });
+  }, [selectedMusic, musicPercentages, setValue]);
 
-    selectedMusic.forEach((key) => {
-      if (
-        !musicPercentages[key] &&
-        key !== "others" &&
-        key !== "bachata" &&
-        key !== "salsa"
-      ) {
-        setValue(`musicPercentages.${key}`, {
-          name: music.find((m) => m.id === key)?.label ?? key,
-          percentage: 0,
-        });
-
-        setTempValues((prev) => ({
-          ...prev,
-          [key]: "0",
-        }));
-      }
-    });
-  }, [selectedMusic, setValue, musicPercentages]);
+  useEffect(() => {
+    recalculateOthers();
+  }, [musicPercentages, recalculateOthers]);
 
   return (
     <FormItem className="space-y-2">
@@ -158,7 +146,6 @@ const MusicPercentageField = () => {
         })
       )}
 
-      {/* Conditionally render "Others" only if it exists in selectedMusic */}
       {selectedMusic.includes("others") && musicPercentages.others && (
         <Controller
           key="others"

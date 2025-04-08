@@ -2,10 +2,7 @@ import { z } from "zod";
 
 const MusicPercentageSchema = z.object({
   name: z.string(),
-  percentage: z
-    .number()
-    .min(1, "Each percentage must be at least 1%")
-    .max(100, "Percentage cannot exceed 100%"),
+  percentage: z.number().max(100, "Percentage cannot exceed 100%"),
 });
 
 export const eventSchema = z.object({
@@ -24,9 +21,11 @@ export const eventSchema = z.object({
   musicPercentages: z
     .record(z.string(), MusicPercentageSchema)
     .and(
-      z.object({
-        others: MusicPercentageSchema,
-      })
+      z
+        .object({
+          others: MusicPercentageSchema,
+        })
+        .optional()
     )
     .refine(
       (percentages) =>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { db, storage } from "@/firebase/config";
+import { auth, db, storage } from "@/firebase/config";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
@@ -59,25 +59,53 @@ const EventForm = ({
     setLoading(true);
 
     let imageUrl = "";
-    if (data.image) {
-      const imageRef = ref(storage, `events/${Date.now()}-${data.image.name}`);
-      await uploadBytes(imageRef, data.image);
-      imageUrl = await getDownloadURL(imageRef);
+    const user = auth.currentUser;
+
+    if (!user) {
+      console.error("User not authenticated");
+      setLoading(false);
+      return;
     }
 
-    await addDoc(collection(db, "events"), {
+    try {
+      if (data.image instanceof File) {
+        const imageRef = ref(
+          storage,
+          `events/${Date.now()}-${data.image.name}`
+        );
+        await uploadBytes(imageRef, data.image);
+        imageUrl = await getDownloadURL(imageRef);
+      }
+    } catch (error) {
+      console.error("Image upload failed:", error);
+      setLoading(false);
+      return; // Stop submission if image upload fails
+    }
+
+    const eventData = {
       title: data.title,
       startTime: data.startTime,
       endTime: data.endTime,
-      imageUrl, // Save the Firestore URL instead of the File
+      imageUrl,
       description: data.description,
       price: data.price,
       music: data.music,
       musicPercentages: data.musicPercentages,
       location: data.location,
-      organizerId: "",
+      link: data.link,
+      organizerId: user.uid,
       createdAt: serverTimestamp(),
-    });
+    };
+
+    try {
+      await addDoc(collection(db, "organizers", user.uid, "events"), eventData);
+      await addDoc(collection(db, "events"), eventData);
+
+      console.log("Event successfully created in both collections!");
+    } catch (error) {
+      console.error("Firestore error:", error);
+      alert("There was an error saving your event. Please try again.");
+    }
 
     setLoading(false);
   };
@@ -172,7 +200,10 @@ const EventForm = ({
                 )}
               />
 
-              <Button type="submit" disabled={loading}>
+              <Button
+                type="submit"
+                disabled={loading || !form.formState.isValid}
+              >
                 {loading ? "Submitting..." : "Post Event"}
               </Button>
             </form>

@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 import { Control } from "react-hook-form";
 
@@ -48,38 +48,45 @@ interface ImageUploadProps {
 
 const ImageUpload = ({ id, value, onChange }: ImageUploadProps) => {
   const [preview, setPreview] = useState<string | null>(null);
-  const imagePreviewUrl = useRef<string | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
-    if (value) {
+    if (value instanceof File) {
       const url = URL.createObjectURL(value);
-      imagePreviewUrl.current = url;
       setPreview(url);
+      return () => URL.revokeObjectURL(url);
+    } else {
+      setPreview(null);
     }
-    return () => {
-      if (imagePreviewUrl.current) {
-        URL.revokeObjectURL(imagePreviewUrl.current);
-      }
-    };
   }, [value]);
 
-  const onImageChange = (ImageList: ImageListType) => {
-    const file = ImageList[0]?.file || undefined;
-    onChange(file);
+  const onImageChange = (imageList: ImageListType) => {
+    const file = imageList[0]?.file;
+    if (file instanceof File) {
+      onChange(file);
+    } else {
+      console.warn("Selected image is not a valid File object");
+      onChange(undefined);
+    }
   };
 
   return (
     <ImageUploading
       multiple={false}
       value={
-        value ? [{ file: value, data_url: imagePreviewUrl.current ?? "" }] : []
+        value
+          ? [
+              {
+                file: value,
+                data_url: preview ?? "",
+              },
+            ]
+          : []
       }
       onChange={onImageChange}
       dataURLKey="data_url"
     >
       {({
-        imageList,
         onImageUpload,
         onImageUpdate,
         onImageRemove,
@@ -87,15 +94,16 @@ const ImageUpload = ({ id, value, onChange }: ImageUploadProps) => {
         dragProps,
       }) => (
         <div className="flex flex-col gap-4">
-          {/* Hidden File Input for Accessibility */}
+          {/* Hidden File Input (optional fallback) */}
           <input
             id={id}
             type="file"
             ref={inputRef}
             className="hidden"
             onChange={(e) => {
-              if (e.target.files?.[0]) {
-                onChange(e.target.files[0]);
+              const file = e.target.files?.[0];
+              if (file instanceof File) {
+                onChange(file);
               }
             }}
           />
@@ -104,10 +112,7 @@ const ImageUpload = ({ id, value, onChange }: ImageUploadProps) => {
             type="button"
             style={
               isDragging
-                ? {
-                    backgroundColor: "limegreen",
-                    transitionDuration: "250ms",
-                  }
+                ? { backgroundColor: "limegreen", transition: "0.25s" }
                 : undefined
             }
             onClick={onImageUpload}
@@ -116,23 +121,19 @@ const ImageUpload = ({ id, value, onChange }: ImageUploadProps) => {
             Click or Drop image here
           </Button>
 
-          {imageList.map((image, index) => (
-            <div key={image.data_url}>
-              <img
-                src={preview ?? undefined}
-                alt="event-image"
-                className="rounded-2xl"
-              />
+          {preview && (
+            <div>
+              <img src={preview} alt="event preview" className="rounded-2xl" />
               <div className="flex gap-2 mt-2">
-                <Button type="button" onClick={() => onImageUpdate(index)}>
+                <Button type="button" onClick={() => onImageUpdate(0)}>
                   Update
                 </Button>
-                <Button type="button" onClick={() => onImageRemove(index)}>
+                <Button type="button" onClick={() => onImageRemove(0)}>
                   Remove
                 </Button>
               </div>
             </div>
-          ))}
+          )}
         </div>
       )}
     </ImageUploading>

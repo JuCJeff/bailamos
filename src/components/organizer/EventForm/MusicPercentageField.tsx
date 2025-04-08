@@ -37,7 +37,7 @@ const MusicPercentageField = () => {
         setValue("music", [...selectedMusic, "others"]);
       }
     } else {
-      setValue("musicPercentages.others", undefined); // Remove "others" when not needed
+      setValue("musicPercentages.others", { name: "Others", percentage: 0 });
 
       if (selectedMusic.includes("others")) {
         setValue(

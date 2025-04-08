@@ -54,6 +54,49 @@ const MusicPercentageField = () => {
     recalculateOthers();
   }, [musicPercentages, recalculateOthers]);
 
+  useEffect(() => {
+    const allKeys = Object.keys(musicPercentages);
+
+    const toRemove = allKeys.filter(
+      (key) =>
+        key !== "others" &&
+        !selectedMusic.includes(key) &&
+        key !== "bachata" &&
+        key !== "salsa"
+    );
+
+    toRemove.forEach((key) => {
+      setValue(`musicPercentages.${key}`, {
+        name: music.find((m) => m.id === key)?.label ?? key,
+        percentage: 0,
+      });
+
+      setTempValues((prev) => ({
+        ...prev,
+        [key]: "0",
+      }));
+    });
+
+    selectedMusic.forEach((key) => {
+      if (
+        !musicPercentages[key] &&
+        key !== "others" &&
+        key !== "bachata" &&
+        key !== "salsa"
+      ) {
+        setValue(`musicPercentages.${key}`, {
+          name: music.find((m) => m.id === key)?.label ?? key,
+          percentage: 0,
+        });
+
+        setTempValues((prev) => ({
+          ...prev,
+          [key]: "0",
+        }));
+      }
+    });
+  }, [selectedMusic, setValue, musicPercentages]);
+
   return (
     <FormItem className="space-y-2">
       <FormLabel>Music Breakdown</FormLabel>
@@ -84,7 +127,7 @@ const MusicPercentageField = () => {
                           onChange={(e) => {
                             setTempValues((prev) => ({
                               ...prev,
-                              [musicId]: e.target.value, // Keep track locally
+                              [musicId]: e.target.value,
                             }));
                           }}
                           onBlur={() => {

@@ -1,3 +1,5 @@
+import { useEffect, useState, useRef } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ModeToggle } from "@/components/ui/mode-toggle";
@@ -5,11 +7,31 @@ import { ModeToggle } from "@/components/ui/mode-toggle";
 import { useNavigate } from "react-router-dom";
 
 const HeadBar = () => {
+  const [scrolled, setScrolled] = useState(false);
+  const headBarRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const height = headBarRef.current?.offsetHeight ?? 0;
+      const scrollTop = window.scrollY;
+
+      if (scrollTop > height && !scrolled) {
+        setScrolled(true);
+      } else if (scrollTop <= height && scrolled) {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [scrolled]);
 
   return (
     <div
-      className={`flex sticky top-0 justify-between py-8 px-5 bg-transparent transition-all max-sm:flex-col gap-2`}
+      className={`sticky top-0 z-50 flex justify-between px-5 py-8 transition-all max-sm:flex-col gap-2 ${
+        scrolled ? "bg-background/90 backdrop-blur" : "bg-transparent"
+      }`}
       style={{
         transitionDuration: ".15s",
         transitionProperty: "background-color",

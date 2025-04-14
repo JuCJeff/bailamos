@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+import EventTime from "./EventTime";
 import GoogleMapLocation from "./GoogleMapLocation";
 import MusicPercentages from "./MusicPercentages";
 import CalendarLink from "./CalendarLink";
@@ -39,6 +40,8 @@ const EventCard = ({ social }: EventCardProps) => {
             className="w-full rounded mt-2"
           />
         )}
+
+        <EventTime startTime={social.startTime} endTime={social.endTime} />
 
         <div className="text-center my-4 whitespace-pre-line">
           <h3 className="text-md font-bold">Details</h3>

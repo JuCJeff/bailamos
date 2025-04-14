@@ -14,17 +14,23 @@ const Socials = () => {
     const fetchEvents = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "events"));
-        const eventsData: Social[] = querySnapshot.docs.map((doc) => {
-          const data = doc.data();
+        const now = new Date();
 
-          return {
-            id: doc.id,
-            ...data,
-            createdAt: (data.createdAt as Timestamp).toDate(),
-            startTime: (data.startTime as Timestamp).toDate(),
-            endTime: (data.endTime as Timestamp).toDate(),
-          } as Social;
-        });
+        const eventsData: Social[] = querySnapshot.docs
+          .map((doc) => {
+            const data = doc.data();
+
+            return {
+              id: doc.id,
+              ...data,
+              createdAt: (data.createdAt as Timestamp).toDate(),
+              startTime: (data.startTime as Timestamp).toDate(),
+              endTime: (data.endTime as Timestamp).toDate(),
+            } as Social;
+          }) // Filter only upcoming events (endTime in the future)
+          .filter((event) => event.endTime > now)
+          // Sort by start time (earliest first)
+          .sort((a, b) => a.startTime.getTime() - b.startTime.getTime());
 
         console.log(eventsData);
 

@@ -19,6 +19,7 @@ const MusicPercentageField = () => {
   > = watch("musicPercentages", {});
 
   const [tempValues, setTempValues] = useState<Record<string, string>>({});
+  const [initialized, setInitialized] = useState(false); // Track initialization
 
   const recalculateOthers = useCallback(() => {
     const totalPercentage = Object.entries(musicPercentages)
@@ -50,21 +51,30 @@ const MusicPercentageField = () => {
     trigger("musicPercentages");
   }, [musicPercentages, selectedMusic, setValue, trigger]);
 
+  // Effect to initialize Bachata and Salsa percentages to 50 if they are not set
   useEffect(() => {
-    selectedMusic.forEach((key) => {
-      if (!musicPercentages[key]) {
-        setValue(`musicPercentages.${key}`, {
-          name: music.find((m) => m.id === key)?.label ?? key,
-          percentage: key === "bachata" || key === "salsa" ? 50 : 0,
-        });
-      }
+    if (!initialized) {
+      selectedMusic.forEach((key) => {
+        if (!musicPercentages[key]) {
+          setValue(`musicPercentages.${key}`, {
+            name: music.find((m) => m.id === key)?.label ?? key,
+            percentage: key === "bachata" || key === "salsa" ? 50 : 0,
+          });
+        }
 
-      setTempValues((prev) => ({
-        ...prev,
-        [key]: `${key === "bachata" || key === "salsa" ? 50 : 0}`,
-      }));
-    });
+        setTempValues((prev) => ({
+          ...prev,
+          [key]: `${key === "bachata" || key === "salsa" ? 50 : 0}`,
+        }));
+      });
 
+      // Set initialization flag to true after first setup
+      setInitialized(true);
+    }
+  }, [selectedMusic, musicPercentages, setValue, initialized]);
+
+  // Effect to reset deselected music percentages to 0
+  useEffect(() => {
     const deselectedKeys = Object.keys(musicPercentages).filter(
       (key) => key !== "others" && !selectedMusic.includes(key)
     );
@@ -81,6 +91,7 @@ const MusicPercentageField = () => {
     });
   }, [selectedMusic, musicPercentages, setValue]);
 
+  // Effect to recalculate the remaining percentage for "Others"
   useEffect(() => {
     recalculateOthers();
   }, [musicPercentages, recalculateOthers]);
@@ -129,7 +140,7 @@ const MusicPercentageField = () => {
                             recalculateOthers();
                             setTempValues((prev) => {
                               const updatedTempValues = { ...prev };
-                              delete updatedTempValues.someKey;
+                              delete updatedTempValues[musicId];
                               return updatedTempValues;
                             });
                           }}

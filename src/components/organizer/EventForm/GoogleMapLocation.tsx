@@ -17,7 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { darkModeStyle } from "@/data/googleMapConfigs";
+import { mapOptions } from "@/data/googleMapConfigs";
 
 import type { EventFormValues } from "@/schemas/eventSchema";
 import type { LocationDetails } from "@/types/eventTypes";
@@ -27,14 +27,6 @@ const libraries: ("places" | "marker")[] = ["places", "marker"];
 type GoogleMapsLocationProps = {
   control: Control<EventFormValues>;
   name: keyof EventFormValues;
-};
-
-const mapOptions: google.maps.MapOptions = {
-  styles: darkModeStyle,
-  disableDefaultUI: true,
-  mapTypeControl: false,
-  fullscreenControl: false,
-  streetViewControl: false,
 };
 
 const defaultCenter = { lat: 43.0722, lng: -89.4008 };

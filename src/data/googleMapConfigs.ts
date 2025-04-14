@@ -38,3 +38,11 @@ export const darkModeStyle: google.maps.MapTypeStyle[] = [
     stylers: [{ color: "#17263c" }],
   },
 ];
+
+export const mapOptions: google.maps.MapOptions = {
+  styles: darkModeStyle,
+  disableDefaultUI: true,
+  mapTypeControl: false,
+  fullscreenControl: false,
+  streetViewControl: false,
+};

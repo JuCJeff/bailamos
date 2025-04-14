@@ -50,7 +50,7 @@ const EventForm = ({
             },
           ])
         ),
-        others: { name: "Others", percentage: 0 }, // ✅ Adding "others" properly
+        others: { name: "Others", percentage: 0 },
       },
     },
   });
@@ -87,7 +87,7 @@ const EventForm = ({
       startTime: data.startTime,
       endTime: data.endTime,
       imageUrl,
-      description: data.description,
+      description: data.description?.trim(),
       price: data.price,
       music: data.music,
       musicPercentages: data.musicPercentages,

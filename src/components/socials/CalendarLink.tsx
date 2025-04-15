@@ -1,5 +1,6 @@
 import { google } from "calendar-link";
 
+import { CalendarIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 
 import type { Social } from "@/types/eventTypes";
@@ -12,7 +13,7 @@ const CalendarLink = ({ event }: Readonly<CalendarLinkProps>) => {
   // Create the calendar event object
   const calendarEvent = {
     title: event.title,
-    description: event.description ? event.description : "",
+    description: event.description ?? "",
     start: event.startTime,
     end: event.endTime,
     location: event.location?.address ?? "",
@@ -25,11 +26,12 @@ const CalendarLink = ({ event }: Readonly<CalendarLinkProps>) => {
   };
 
   return (
-    <div className="my-4">
-      <Button onClick={handleAddToGoogleCalendarClick}>
-        Add to Google Calendar
-      </Button>
-    </div>
+    <Button
+      variant="outline"
+      onClick={handleAddToGoogleCalendarClick}
+    >
+      <CalendarIcon /> Add to Google Calendar
+    </Button>
   );
 };
 

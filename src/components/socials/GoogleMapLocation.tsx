@@ -1,5 +1,8 @@
 import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
+import { MapIcon } from "lucide-react";
+
 import {
   GoogleMap,
   Marker,
@@ -38,14 +41,18 @@ const GoogleMapLocation = ({ location }: GoogleMapLocationProps) => {
 
   return (
     <div className="flex flex-col">
-      <h3 className="text-md font-bold">Location</h3>
+      <h3 className="text-md text-primary font-bold mt-2">Location</h3>
 
-      <Button variant="link" className="text-md" onClick={handleClick}>
-        {location.propertyName}
+      <Button
+        variant="link"
+        className="text-sm text-foreground"
+        onClick={handleClick}
+      >
+        <MapIcon /><p>{location.propertyName}</p>
       </Button>
 
       {/* Map Container */}
-      <div className="w-full h-72 rounded-md border mt-4">
+      <div className="w-full h-72 rounded-md border mt-2">
         <GoogleMap
           center={mapCenter}
           zoom={15}

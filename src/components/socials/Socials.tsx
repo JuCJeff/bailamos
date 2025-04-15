@@ -48,7 +48,7 @@ const Socials = () => {
   if (loading) return <p>Loading events...</p>;
 
   return (
-    <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-4 grid-cols-1 mx-1 sm:grid-cols-2 sm:mx-2 lg:grid-cols-3 lg:mx-4">
       {socials.map((social) => (
         <EventCard key={social.id} social={social} />
       ))}

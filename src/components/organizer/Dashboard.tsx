@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { EventForm } from "./EventForm";
+import PreviousPosts from "./PreviousPosts";
 import Profile from "./Profile";
 
 const Dashboard = ({
@@ -16,18 +17,20 @@ const Dashboard = ({
           <CardTitle className="text-2xl">Organizer Dashboard</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex min-h-full w-full items-center justify-center p-2 max-sm:p-0">
-            <div className="w-full max-w-sm justify-center">
+          <div className="flex min-h-full w-full justify-center px-0 sm:px-8">
+            <div className="w-full max-w-md">
               <Tabs defaultValue="create-post" className="w-full">
                 <TabsList className="grid w-full grid-cols-3">
                   <TabsTrigger value="create-post">Create Post</TabsTrigger>
                   <TabsTrigger value="post">Posts</TabsTrigger>
                   <TabsTrigger value="profile">Profile</TabsTrigger>
                 </TabsList>
-                <TabsContent value="create-post">
+                <TabsContent value="create-post" className="flex">
                   <EventForm />
                 </TabsContent>
-                <TabsContent value="post">Previous posts</TabsContent>
+                <TabsContent value="post">
+                  <PreviousPosts />
+                </TabsContent>
                 <TabsContent value="profile">
                   <Profile />
                 </TabsContent>

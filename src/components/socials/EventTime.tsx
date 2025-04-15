@@ -1,19 +1,21 @@
+import { formatDateLine, formatTimeLine } from "../utils";
+
 interface EventTimeProps {
-  startTime: Date;
-  endTime: Date;
+  label: string;
+  time: Date;
 }
 
-const EventTime = ({ startTime, endTime }: EventTimeProps) => {
-  const formatTime = (date: Date) =>
-    date
-      .toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-      .replace(/^0/, "");
-
+const EventTime = ({ label, time }: EventTimeProps) => {
   return (
-    <div className="text-center my-4">
-      <h3 className="text-md font-bold">Time</h3>
-      {startTime.toLocaleDateString()} {formatTime(startTime)} -{" "}
-      {endTime.toLocaleDateString()} {formatTime(endTime)}
+    <div className="flex flex-col text-center mt-2 gap-2">
+      <div>
+        <h3 className="text-md text-primary font-bold">{label}</h3>
+        <p className="whitespace-pre-line text-sm">
+          {formatDateLine(time)}
+          {"\n"}
+          {formatTimeLine(time)}
+        </p>
+      </div>
     </div>
   );
 };

@@ -50,8 +50,8 @@ const HeadBar = () => {
             Organizer
           </Button>
         </div>
-        <Input placeholder="search" />
         <ModeToggle />
+        <Input placeholder="search" />
       </div>
     </div>
   );

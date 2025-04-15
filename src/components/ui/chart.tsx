@@ -281,20 +281,30 @@ function ChartLegendContent({
           <div
             key={item.value}
             className={cn(
-              "[&>svg]:text-muted-foreground flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3"
+              "[&>svg]:text-muted-foreground flex flex-col items-center [&>svg]:h-3 [&>svg]:w-3"
             )}
           >
-            {itemConfig?.icon && !hideIcon ? (
-              <itemConfig.icon />
-            ) : (
-              <div
-                className="h-2 w-2 shrink-0 rounded-[2px]"
-                style={{
-                  backgroundColor: item.color,
-                }}
-              />
-            )}
-            <span>{itemConfig?.label}</span>
+            <div className="flex items-center gap-1.5">
+              {itemConfig?.icon && !hideIcon ? (
+                <itemConfig.icon />
+              ) : (
+                <div
+                  className="h-2 w-2 shrink-0 rounded-[2px]"
+                  style={{
+                    backgroundColor: item.color,
+                  }}
+                />
+              )}
+              <span>{itemConfig?.label}</span>
+            </div>
+
+            <span>
+              {typeof item?.payload?.value === "number" && (
+                <span className="text-muted-foreground font-mono">
+                  {item.payload.value}%
+                </span>
+              )}
+            </span>
           </div>
         );
       })}

@@ -111,7 +111,7 @@ const EventForm = ({
   };
 
   return (
-    <div className={cn("flex flex-col gap-6 m-2", className)} {...props}>
+    <div className={cn("w-full flex flex-col gap-6 m-2", className)} {...props}>
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl">Create Event</CardTitle>

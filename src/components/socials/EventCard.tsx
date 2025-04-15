@@ -13,6 +13,8 @@ import MusicPercentages from "./MusicPercentages";
 import CalendarLink from "./CalendarLink";
 import DetailsLink from "./DetailsLink";
 
+import { formatDateLine, formatTimeLine } from "../utils";
+
 import type { Social } from "@/types/eventTypes";
 
 type EventCardProps = {
@@ -26,13 +28,19 @@ const EventCard = ({ social }: EventCardProps) => {
         .sort((a, b) => b.percentage - a.percentage)
     : [];
 
+  const formattedStartTime = `${formatDateLine(
+    social.startTime
+  )} ${formatTimeLine(social.startTime)}`;
+
   return (
     <Card className="break-inside-avoid mb-4 mx-2 shadow hover:border-yellow-500 hover:shadow-[0_0_1em_rgba(255,223,0,0.6)] transition-all duration-250 ease-in-out">
       <CardHeader>
         <CardTitle className="text-2xl">{social.title}</CardTitle>
-        <CardDescription>{social.startTime.toLocaleString()}</CardDescription>
+        <CardDescription>{formattedStartTime}</CardDescription>
       </CardHeader>
       <CardContent>
+        <CalendarLink event={social} />
+
         {social.imageUrl && (
           <img
             src={social.imageUrl}
@@ -41,23 +49,32 @@ const EventCard = ({ social }: EventCardProps) => {
           />
         )}
 
-        <EventTime startTime={social.startTime} endTime={social.endTime} />
-
-        <div className="text-center my-4 whitespace-pre-line">
-          <h3 className="text-md font-bold">Details</h3>
-          {social.description}
+        <div className="text-center mt-2 whitespace-pre-line">
+          <h3 className="text-md text-primary font-bold">Details</h3>
+          <p className="text-sm/6">{social.description}</p>
         </div>
 
-        <CalendarLink event={social} />
+        <div>{social.link && <DetailsLink link={social.link} />}</div>
+
+        <div className="flex flex-col justify-center">
+          {/* Start Time */}
+          <EventTime label="Starts" time={social.startTime} />
+
+          {/* End Time */}
+          <EventTime label="Ends" time={social.endTime} />
+        </div>
 
         {social.location && <GoogleMapLocation location={social.location} />}
+
         {musicPercentagesArray.length > 0 && (
           <MusicPercentages musicList={musicPercentagesArray} />
         )}
-        {social.link && <DetailsLink link={social.link} />}
       </CardContent>
       <CardFooter>
-        <p>Posted at {social.createdAt.toLocaleString()}</p>
+        <p className="text-xs tracking-tight">
+          Posted on {formatDateLine(social.createdAt)}{" "}
+          {formatTimeLine(social.createdAt)}
+        </p>
       </CardFooter>
     </Card>
   );

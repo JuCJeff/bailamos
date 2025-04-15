@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
-import ImageUploading, { ImageListType } from "react-images-uploading";
 import { Control } from "react-hook-form";
+
+import ImageUploading, { ImageListType } from "react-images-uploading";
 
 import { Button } from "@/components/ui/button";
 import {

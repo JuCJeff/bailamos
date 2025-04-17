@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { auth, db, storage } from "@/firebase/config";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -26,6 +27,8 @@ import PriceInputField from "./PriceInputField";
 import MusicPercentageField from "./MusicPercentageField";
 import { DateTimePicker } from "./DateTimePicker";
 import MusicSelectionField from "./MusicSelectionField";
+
+import { useOrganizerSocialLink } from "@/hooks/organizer";
 
 import { music } from "@/data/event";
 
@@ -54,6 +57,8 @@ const EventForm = ({
       },
     },
   });
+
+  const { socialLink: organizerSocialLink } = useOrganizerSocialLink();
 
   const onSubmit = async (data: EventFormValues) => {
     setLoading(true);
@@ -94,6 +99,7 @@ const EventForm = ({
       location: data.location,
       link: data.link,
       organizerId: user.uid,
+      organizerSocialLink,
       createdAt: serverTimestamp(),
     };
 
@@ -101,10 +107,25 @@ const EventForm = ({
       await addDoc(collection(db, "organizers", user.uid, "events"), eventData);
       await addDoc(collection(db, "events"), eventData);
 
+      toast.success("Event created!", {
+        description: new Date().toLocaleString(),
+        action: {
+          label: "Close",
+          onClick: () => {},
+        },
+      });
+
+      toast.success("Event posted successfully!");
       console.log("Event successfully created in both collections!");
     } catch (error) {
+      toast.error("There was an error saving your event. Please try again", {
+        description: error instanceof Error ? error.message : "Firestore error",
+        action: {
+          label: "Close",
+          onClick: () => {},
+        },
+      });
       console.error("Firestore error:", error);
-      alert("There was an error saving your event. Please try again.");
     }
 
     setLoading(false);

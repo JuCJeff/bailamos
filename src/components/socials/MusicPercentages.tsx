@@ -1,14 +1,4 @@
-import { Pie, PieChart } from "recharts";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-  ChartLegend,
-  ChartLegendContent,
-} from "@/components/ui/chart";
-
+import { Card, CardContent } from "@/components/ui/card";
 import { findTagStyles } from "@/helper/eventDisplay";
 import type { MusicPercentage } from "@/types/eventTypes";
 
@@ -16,67 +6,58 @@ interface MusicPercentagesProps {
   musicList: MusicPercentage[];
 }
 
-const MusicPercentages = ({ musicList }: Readonly<MusicPercentagesProps>) => {
+const MusicPercentagesProgressList = ({
+  musicList,
+}: Readonly<MusicPercentagesProps>) => {
+  // Max percentage takes up the whole row
+  const maxPercentage = Math.max(...musicList.map((music) => music.percentage));
+
   const chartData = musicList
     .filter((music) => music.percentage > 0)
     .map((music) => {
       const tagStyles = findTagStyles(music);
       if (!tagStyles) return null;
 
-      const key = music.name.toLowerCase().replace(/\s+/g, "_");
-
       return {
-        key,
         label: music.name,
-        value: music.percentage,
-        fill: tagStyles.bgColor,
+        percentage: music.percentage,
+        color: tagStyles.bgColor,
       };
     })
     .filter(Boolean) as {
-    key: string;
     label: string;
-    value: number;
-    fill: string;
+    percentage: number;
+    color: string;
   }[];
 
-  const chartConfig: ChartConfig = chartData.reduce((acc, item) => {
-    acc[item.key] = {
-      label: item.label,
-      color: item.fill,
-    };
-    return acc;
-  }, {} as ChartConfig);
-
   return (
-    <Card className="flex flex-col mt-6">
-      <CardHeader className="items-center pb-0">
-        <CardTitle>Music Percentages</CardTitle>
-      </CardHeader>
-
-      <CardContent className="flex-1 pb-0">
-        <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square max-h-[300px]"
-        >
-          <PieChart>
-            <ChartTooltip content={<ChartTooltipContent nameKey="label" />} />
-            <Pie
-              data={chartData}
-              dataKey="value"
-              nameKey="label"
-              cx="50%"
-              cy="50%"
-              outerRadius="80%"
-            />
-            <ChartLegend
-              content={<ChartLegendContent nameKey="key" />}
-              className="-translate-y-2 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center"
-            />
-          </PieChart>
-        </ChartContainer>
-      </CardContent>
-    </Card>
+    <div className="mt-4">
+      <h3 className="text-md font-bold">Music Distribution</h3>
+      <Card className="mt-2">
+        <CardContent className="space-y-4 px-4">
+          {chartData.map((item) => (
+            <div key={item.label} className="space-y-1">
+              <div className="flex justify-between text-sm">
+                <span className="font-medium">{item.label}</span>
+                <span className="text-muted-foreground">
+                  {item.percentage}%
+                </span>
+              </div>
+              <div className="relative h-4 w-full overflow-hidden">
+                <div
+                  className="absolute h-full rounded-sm"
+                  style={{
+                    width: `${(item.percentage / maxPercentage) * 100}%`, // Scale according to max percentage
+                    backgroundColor: item.color,
+                  }}
+                />
+              </div>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
-export default MusicPercentages;
+export default MusicPercentagesProgressList;

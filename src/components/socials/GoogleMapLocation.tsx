@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { MapIcon } from "lucide-react";
 
 import {
   GoogleMap,
@@ -43,12 +42,10 @@ const GoogleMapLocation = ({ location }: GoogleMapLocationProps) => {
     <div className="flex flex-col">
       <h3 className="text-md text-primary font-bold mt-2">Location</h3>
 
-      <Button
-        variant="link"
-        className="text-sm text-foreground"
-        onClick={handleClick}
-      >
-        <MapIcon /><p>{location.propertyName}</p>
+      <Button variant="link" className=" text-sm" onClick={handleClick}>
+        <div className="flex items-center gap-1">
+          <p className="max-sm:underline">{location.propertyName}</p>
+        </div>
       </Button>
 
       {/* Map Container */}
@@ -71,15 +68,10 @@ const GoogleMapLocation = ({ location }: GoogleMapLocationProps) => {
               onCloseClick={() => setInfoWindowOpen(false)}
             >
               <div className="flex flex-col gap-1">
-                <h3 className="font-semibold text-md text-primary">
+                <h3 className="font-semibold text-sm text-primary">
                   {location.propertyName}
                 </h3>
                 <p className="text-sm text-gray-500">{location.address}</p>
-                {location.city && location.state && (
-                  <p className="text-sm text-gray-400">
-                    {location.city}, {location.state}
-                  </p>
-                )}
                 <a
                   href={location.googleMapsUrl}
                   target="_blank"

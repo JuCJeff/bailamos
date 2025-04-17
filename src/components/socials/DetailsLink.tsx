@@ -1,4 +1,3 @@
-import { Link2Icon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 
 interface DetailsLinkProps {
@@ -11,8 +10,8 @@ const DetailsLink = ({ link }: DetailsLinkProps) => {
   };
 
   return (
-    <Button variant="outline" onClick={handleClick} className="text-sm mt-2">
-      <Link2Icon/> Event Link
+    <Button variant="link" onClick={handleClick} className="text-sm max-sm:underline">
+      Event Link
     </Button>
   );
 };

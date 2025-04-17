@@ -12,7 +12,7 @@ interface CalendarLinkProps {
 const CalendarLink = ({ event }: Readonly<CalendarLinkProps>) => {
   // Create the calendar event object
   const calendarEvent = {
-    title: event.title,
+    title: `${event.title} - Dance Social`,
     description: event.description ?? "",
     start: event.startTime,
     end: event.endTime,
@@ -26,10 +26,7 @@ const CalendarLink = ({ event }: Readonly<CalendarLinkProps>) => {
   };
 
   return (
-    <Button
-      variant="outline"
-      onClick={handleAddToGoogleCalendarClick}
-    >
+    <Button variant="outline" onClick={handleAddToGoogleCalendarClick} className="max-sm:text-primary">
       <CalendarIcon /> Add to Google Calendar
     </Button>
   );

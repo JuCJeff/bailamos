@@ -35,5 +35,6 @@ export type Social = {
   link?: string;
   music: string[];
   musicPercentages: Record<string, MusicPercentage>;
+  organizerSocialLink?: string;
   location?: Location;
 };

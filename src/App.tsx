@@ -13,7 +13,7 @@ function App() {
   return (
     <div>
       <Suspense fallback={<div>Loading...</div>}>
-        <Router basename="/bailamos">
+        <Router basename="/">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/organizer" element={<OrganizerPage />} />

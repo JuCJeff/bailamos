@@ -10,7 +10,7 @@ const useUpdateProfile = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
 
-  const updateProfile = async (profileData: OrganizerProfileData) => {
+  const updateProfile = async (profileData: Partial<OrganizerProfileData>) => {
     setLoading(true);
     setError(null);
     setSuccess(false);

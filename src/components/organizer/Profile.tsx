@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Toaster, toast } from "sonner";
-import { Timestamp } from "firebase/firestore";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -26,6 +25,9 @@ const Profile = () => {
   const [profileFormFields, setProfileFormFields] = useState<
     ProfileFormField[]
   >([]);
+  const [initialProfileFields, setInitialProfileFields] = useState<
+    ProfileFormField[]
+  >([]);
 
   const {
     loading: profileLoading,
@@ -40,31 +42,27 @@ const Profile = () => {
   } = useUpdateProfile();
 
   useEffect(() => {
-    if (profileData) {
-      setProfileFormFields([
-        {
-          label: "Email",
-          value: profileData.email,
-        },
-        {
-          label: "First name",
-          value: profileData.firstName || "",
-        },
-        {
-          label: "Last name",
-          value: profileData.lastName || "",
-        },
-        {
-          label: "Social Media",
-          value: profileData.socialMediaLink ?? "",
-        },
-        {
-          label: "Website",
-          value: profileData.websiteLink ?? "",
-        },
-      ]);
+    if (profileData && initialProfileFields.length === 0) {
+      const fields = [
+        { label: "Email", value: profileData.email },
+        { label: "First name", value: profileData.firstName || "" },
+        { label: "Last name", value: profileData.lastName || "" },
+        { label: "Social Media", value: profileData.socialMediaLink ?? "" },
+        { label: "Website", value: profileData.websiteLink ?? "" },
+      ];
+
+      const clonedFields = fields.map((field) => ({ ...field }));
+
+      setInitialProfileFields(clonedFields); // only set once
+      setProfileFormFields(clonedFields);
     }
-  }, [profileData]);
+  }, [profileData, initialProfileFields.length]);
+
+  useEffect(() => {
+    return () => {
+      toast.dismiss(); // dismiss all toasts on unmount
+    };
+  }, []);
 
   const handleUpdateProfile = async () => {
     if (!profileData) {
@@ -78,42 +76,53 @@ const Profile = () => {
       "Social Media": "socialMediaLink",
       Website: "websiteLink",
     };
-    const updatedProfile = profileFormFields.reduce((acc, field) => {
-      const property = fieldMapping[field.label];
-      if (property && field.value) {
-        if (property === "createdAt") {
-          acc[property] = Timestamp.fromDate(new Date(field.value));
-        } else {
+
+    const updatedProfile = profileFormFields.reduce(
+      (acc, field) => {
+        const property = fieldMapping[field.label];
+        if (property) {
           acc[property] = field.value;
         }
+        return acc;
+      },
+      {} as {
+        [K in keyof OrganizerProfileData]?: string;
       }
-      return acc;
-    }, {} as OrganizerProfileData);
-
-    // Check if there are any changes in the form fields compared to the original profile data
-    const hasChanges = Object.keys(updatedProfile).some(
-      (key) =>
-        updatedProfile[key as keyof OrganizerProfileData] !==
-        profileData[key as keyof OrganizerProfileData]
     );
+
+    // Cast updatedProfile to exclude the 'createdAt' field
+    const { ...profileWithoutCreatedAt } = updatedProfile as Omit<
+      OrganizerProfileData,
+      "createdAt"
+    >;
+
+    const hasChanges = profileFormFields.some((field) => {
+      const initialField = initialProfileFields.find(
+        (f) => f.label === field.label
+      );
+      return initialField?.value !== field.value;
+    });
 
     if (!hasChanges) {
       toast("No changes detected. Profile not updated");
       return;
     }
 
-    await updateProfile(updatedProfile);
+    await updateProfile(profileWithoutCreatedAt);
 
+    setInitialProfileFields(profileFormFields.map((f) => ({ ...f })));
+    setProfileFormDisabled(true);
+  };
+
+  useEffect(() => {
     if (updateSuccess) {
       toast.success("Successfully updated your profile");
     }
-
     if (updateError) {
-      toast.error("An error occured while updating profile, please try again");
+      toast.error("An error occurred while updating profile, please try again");
     }
+  }, [updateSuccess, updateError]);
 
-    setProfileFormDisabled(true);
-  };
   if (profileLoading) {
     return (
       <div>
@@ -148,8 +157,11 @@ const Profile = () => {
                   <Input
                     value={field.value}
                     onChange={(e) => {
-                      const updatedFields = [...profileFormFields];
-                      updatedFields[index].value = e.target.value;
+                      const updatedFields = profileFormFields.map((field, i) =>
+                        i === index
+                          ? { ...field, value: e.target.value }
+                          : field
+                      );
                       setProfileFormFields(updatedFields);
                     }}
                     disabled={field.label === "Email" || profileFormDisabled}

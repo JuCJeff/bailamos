@@ -40,7 +40,7 @@ const PreviousPosts = () => {
           db,
           `organizers/${user.uid}/events`
         );
-        const q = query(organizerEventsRef, orderBy("endTime", "desc"));
+        const q = query(organizerEventsRef, orderBy("createdAt", "desc"));
 
         const snapshot = await getDocs(q);
         const eventsData: Social[] = snapshot.docs.map((doc) => {

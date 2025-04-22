@@ -40,7 +40,7 @@ const GoogleMapLocation = ({ control, name }: GoogleMapsLocationProps) => {
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
 
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY || "",
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? "",
     libraries: libraries,
   });
 
@@ -60,9 +60,7 @@ const GoogleMapLocation = ({ control, name }: GoogleMapsLocationProps) => {
       state: place.address_components?.find((c) =>
         c.types.includes("administrative_area_level_1")
       )?.short_name,
-      googleMapsUrl: place.url
-        ? place.url
-        : `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`,
+      googleMapsUrl: place.url ?? `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`,
       lat,
       lng,
     };

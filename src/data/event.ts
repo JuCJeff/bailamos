@@ -21,6 +21,21 @@ export const music = [
   },
 ];
 
+export const eventTags = [
+  "18+",
+  "21+",
+  "Complimentary Lessons",
+  "DJ",
+  "Drink Specials",
+  "Event Photography",
+  "Full Bar",
+  "Guest DJ",
+  "Guest Instructor",
+  "House Event",
+  "Live Band",
+  "Studio Event",
+];
+
 export type Tag = {
   name: string;
   bgColor: string;

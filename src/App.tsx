@@ -1,6 +1,8 @@
 import { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
+import { Footer } from "./components/layout";
+
 import { Toaster } from "sonner";
 
 import "./App.css";
@@ -20,7 +22,8 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
           </Routes>
         </Router>
-        
+
+        <Footer />
         <Toaster className="text-start" position="top-center" richColors />
       </Suspense>
     </div>

@@ -45,7 +45,12 @@ const EventCard = ({ social }: EventCardProps) => {
     <Card className="break-inside-avoid mb-4 mx-2 shadow hover:border-yellow-500 hover:shadow-[0_0_1em_rgba(255,223,0,0.6)] transition-all duration-250 ease-in-out">
       <CardHeader>
         <CardTitle className="text-2xl">{social.title}</CardTitle>
-        <CardDescription>{formatDateLine(social.startTime)}</CardDescription>
+        <CardDescription className="flex flex-col">
+          <span>
+            {social.location?.city}, {social.location?.state}
+          </span>
+          <span>{formatDateLine(social.startTime)}</span>
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <CalendarLink event={social} />

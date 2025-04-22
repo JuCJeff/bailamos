@@ -4,7 +4,7 @@ export const formatDateLine = (date: Date) => {
   const day = date.getDate(); // Just a number
   const year = date.getFullYear();
 
-  return `${weekday}, ${month} ${day} ${year}`;
+  return `${weekday}, ${month} ${day}, ${year}`;
 };
 
 export const formatTimeLine = (date: Date) =>

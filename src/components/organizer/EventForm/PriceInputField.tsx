@@ -42,13 +42,15 @@ const PriceInputField = ({ control, name }: PriceInputFieldProps) => {
   return (
     <div className="space-y-2">
       {/* Price Input */}
-      {!isFreeEvent && (
-        <FormField
-          control={control}
-          name={name}
-          render={() => (
-            <FormItem className="text-start">
-              <FormLabel htmlFor="price">Price</FormLabel>
+      <FormField
+        control={control}
+        name={name}
+        render={() => (
+          <FormItem className="text-start">
+            <FormLabel htmlFor="price">Price</FormLabel>
+            {isFreeEvent ? (
+              <p className="text-normal text-sm my-2">Free</p>
+            ) : (
               <FormControl>
                 <div className="flex items-center">
                   <span className="pe-1">$</span>
@@ -61,11 +63,11 @@ const PriceInputField = ({ control, name }: PriceInputFieldProps) => {
                   />
                 </div>
               </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      )}
+            )}
+            <FormMessage />
+          </FormItem>
+        )}
+      />
 
       {/* Free Event Checkbox */}
       <div className="flex items-center">

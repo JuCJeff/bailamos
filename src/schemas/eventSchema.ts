@@ -17,6 +17,7 @@ export const eventSchema = z.object({
   description: z.string().optional(),
   image: z.instanceof(File).optional(),
   link: z.string().optional(),
+  eventTags: z.array(z.string()).optional().default([]),
   music: z.array(z.string()).nonempty("Select at least one category"),
   musicPercentages: z
     .record(z.string(), MusicPercentageSchema)

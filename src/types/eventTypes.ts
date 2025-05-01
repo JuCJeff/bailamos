@@ -33,8 +33,10 @@ export type Social = {
   description?: string;
   imageUrl?: string;
   link?: string;
+  eventTags?: string[];
   music: string[];
   musicPercentages: Record<string, MusicPercentage>;
+  websiteLink?: string;
   organizerSocialLink?: string;
   location?: Location;
 };

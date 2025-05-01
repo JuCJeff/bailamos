@@ -7,14 +7,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+import EventTags from "./EventTags";
 import EventTime from "./EventTime";
 import GoogleMapLocation from "./GoogleMapLocation";
 import MusicPercentages from "./MusicPercentages";
 import CalendarLink from "./CalendarLink";
 import DetailsLink from "./DetailsLink";
-import OragnizerSocialLink from "./OrganizerSocialLink";
+import FooterContent from "./FooterContent";
 
-import { formatDateLine, formatTimeLine } from "../utils";
+import { formatDateLine } from "../utils";
 
 import type { Social } from "@/types/eventTypes";
 
@@ -46,10 +47,10 @@ const EventCard = ({ social }: EventCardProps) => {
       <CardHeader>
         <CardTitle className="text-2xl">{social.title}</CardTitle>
         <CardDescription className="flex flex-col">
+          <span>{formatDateLine(social.startTime)}</span>
           <span>
             {social.location?.city}, {social.location?.state}
           </span>
-          <span>{formatDateLine(social.startTime)}</span>
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -62,6 +63,8 @@ const EventCard = ({ social }: EventCardProps) => {
             className="w-full rounded mt-2"
           />
         )}
+
+        <EventTags tags={social.eventTags} />
 
         <div className="text-center mt-2 whitespace-pre-line">
           <h3 className="text-md font-bold">Details</h3>
@@ -91,15 +94,11 @@ const EventCard = ({ social }: EventCardProps) => {
         )}
       </CardContent>
       <CardFooter>
-        <div className="flex flex-col items-center gap-2">
-          {social.organizerSocialLink && (
-            <OragnizerSocialLink link={social.organizerSocialLink} />
-          )}
-          <p className="text-xs tracking-tight">
-            Posted on {formatDateLine(social.createdAt)}{" "}
-            {formatTimeLine(social.createdAt)}
-          </p>
-        </div>
+        <FooterContent
+          createdAt={social.createdAt}
+          socialLink={social.organizerSocialLink}
+          websiteLink={social.websiteLink}
+        />
       </CardFooter>
     </Card>
   );

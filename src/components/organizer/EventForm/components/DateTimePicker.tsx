@@ -28,7 +28,7 @@ import {
 
 import { EventFormValues } from "@/schemas/eventSchema";
 
-export function DateTimePicker({
+const DateTimePicker = ({
   form,
   label,
   formFieldName,
@@ -36,7 +36,7 @@ export function DateTimePicker({
   form: UseFormReturn<EventFormValues>;
   label: string;
   formFieldName: "startTime" | "endTime";
-}>) {
+}>) => {
   function handleDateSelect(date: Date | undefined) {
     if (date) {
       form.setValue(formFieldName, date);
@@ -225,4 +225,6 @@ export function DateTimePicker({
       )}
     />
   );
-}
+};
+
+export default DateTimePicker;

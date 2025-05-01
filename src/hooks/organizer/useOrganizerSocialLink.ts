@@ -4,6 +4,8 @@ import { auth, db } from "@/firebase/config";
 
 export const useOrganizerSocialLink = () => {
   const [socialLink, setSocialLink] = useState<string | null>(null);
+  const [websiteLink, setWebsiteLink] = useState<string | null>(null);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,6 +23,7 @@ export const useOrganizerSocialLink = () => {
         if (docSnap.exists()) {
           const profileData = docSnap.data();
           setSocialLink(profileData?.socialMediaLink ?? null);
+          setWebsiteLink(profileData?.websiteLink ?? null);
         }
       } catch (error) {
         console.warn("Could not fetch organizer social link:", error);
@@ -32,5 +35,5 @@ export const useOrganizerSocialLink = () => {
     fetchSocialLink();
   }, []);
 
-  return { socialLink, loading };
+  return { socialLink, websiteLink, loading };
 };

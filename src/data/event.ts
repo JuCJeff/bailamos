@@ -24,6 +24,7 @@ export const music = [
 export const eventTags = [
   "18+",
   "21+",
+  "All Ages",
   "Complimentary Lessons",
   "DJ",
   "Drink Specials",

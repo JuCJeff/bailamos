@@ -2,15 +2,7 @@ import { useEffect } from "react";
 
 import { cn } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
 
 import {
   DateTimePicker,
@@ -19,6 +11,7 @@ import {
   EventTagsField,
   GoogleMapLocation,
   ImageUpload,
+  LinkField,
   MusicPercentageField,
   MusicSelectionField,
   PriceInputField,
@@ -96,23 +89,7 @@ const EventForm = ({
               <MusicPercentageField />
 
               {/* Additional Link Field */}
-              <FormField
-                control={form.control}
-                name="link"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Link</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="event link (optional)"
-                        aria-label="link for additional details"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <LinkField control={form.control} name="link" />
             </form>
           </Form>
 

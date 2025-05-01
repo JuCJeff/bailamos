@@ -4,6 +4,7 @@ import EventFormDialogControls from "./EventFormDialogControls";
 import EventTagsField from "./EventTagsField";
 import GoogleMapLocation from "./GoogleMapLocation";
 import ImageUpload from "./ImageUpload";
+import LinkField from "./LinkField";
 import MusicPercentageField from "./MusicPercentageField";
 import MusicSelectionField from "./MusicSelectionField";
 import PriceInputField from "./PriceInputField";
@@ -16,6 +17,7 @@ export {
   EventTagsField,
   GoogleMapLocation,
   ImageUpload,
+  LinkField,
   MusicPercentageField,
   MusicSelectionField,
   PriceInputField,

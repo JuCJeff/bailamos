@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 import { cn } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
@@ -29,14 +27,6 @@ const EventForm = ({
   const formValues = form.watch(); // 👀 Watch all form values
 
   const { onSubmit, loading } = useSubmitEvent();
-
-  // Clean up the blob URL when the image changes or the component unmounts
-  useEffect(() => {
-    if (formValues.image instanceof File) {
-      const objectUrl = URL.createObjectURL(formValues.image);
-      return () => URL.revokeObjectURL(objectUrl);
-    }
-  }, [formValues.image]);
 
   return (
     <div className={cn("w-full flex flex-col gap-6 m-2", className)} {...props}>

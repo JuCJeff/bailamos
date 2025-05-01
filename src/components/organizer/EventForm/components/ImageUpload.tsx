@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from "react";
 import { Control } from "react-hook-form";
 
 import ImageUploading, { ImageListType } from "react-images-uploading";
-
 import { Button } from "@/components/ui/button";
 import {
   FormField,
@@ -52,13 +51,21 @@ const ImageUpload = ({ id, value, onChange }: ImageUploadProps) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
+    let objectUrl: string | null = null;
+
     if (value instanceof File) {
-      const url = URL.createObjectURL(value);
-      setPreview(url);
-      return () => URL.revokeObjectURL(url);
+      objectUrl = URL.createObjectURL(value);
+      setPreview(objectUrl);
     } else {
       setPreview(null);
     }
+
+    // Clean up the object URL when the image changes or the component unmounts
+    return () => {
+      if (objectUrl) {
+        URL.revokeObjectURL(objectUrl);
+      }
+    };
   }, [value]);
 
   const onImageChange = (imageList: ImageListType) => {

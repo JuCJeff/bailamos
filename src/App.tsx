@@ -13,14 +13,16 @@ const LoginPage = lazy(() => import("./pages/LoginPage"));
 
 function App() {
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Suspense fallback={<div>Loading...</div>}>
         <Router basename="/">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/organizer" element={<OrganizerPage />} />
-            <Route path="/login" element={<LoginPage />} />
-          </Routes>
+          <div className="flex-grow">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/organizer" element={<OrganizerPage />} />
+              <Route path="/login" element={<LoginPage />} />
+            </Routes>
+          </div>
         </Router>
 
         <Footer />

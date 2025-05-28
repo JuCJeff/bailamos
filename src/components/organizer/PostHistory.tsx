@@ -26,7 +26,7 @@ import EventCard from "../socials/EventCard";
 
 import type { Social } from "@/types/eventTypes";
 
-const PreviousPosts = () => {
+const PostHistory = () => {
   const [user] = useAuthState(auth);
   const [previousEvents, setPreviousEvents] = useState<Social[]>([]);
   const [loading, setLoading] = useState(true);
@@ -93,9 +93,7 @@ const PreviousPosts = () => {
   };
 
   if (previousEvents.length === 0) {
-    return (
-      <p>No previously events posted</p>
-    )
+    return <p className="mt-2">No previously events posted</p>;
   }
 
   return (
@@ -106,14 +104,14 @@ const PreviousPosts = () => {
 
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="destructive">
-                Delete
-              </Button>
+              <Button variant="destructive">Delete</Button>
             </DialogTrigger>
 
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Are you sure you want to delete this event?</DialogTitle>
+                <DialogTitle>
+                  Are you sure you want to delete this event?
+                </DialogTitle>
                 <DialogDescription>
                   This will permanently delete the event from both your
                   organizer account and the global events list
@@ -137,4 +135,4 @@ const PreviousPosts = () => {
   );
 };
 
-export default PreviousPosts;
+export default PostHistory;

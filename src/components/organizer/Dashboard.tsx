@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { EventForm } from "./EventForm";
-import PreviousPosts from "./PreviousPosts";
+import PostHistory from "./PostHistory";
 import Profile from "./Profile";
 
 const Dashboard = ({
@@ -29,7 +29,7 @@ const Dashboard = ({
                   <EventForm />
                 </TabsContent>
                 <TabsContent value="post">
-                  <PreviousPosts />
+                  <PostHistory />
                 </TabsContent>
                 <TabsContent value="profile">
                   <Profile />

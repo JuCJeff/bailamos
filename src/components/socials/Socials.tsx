@@ -32,8 +32,6 @@ const Socials = () => {
           // Sort by start time (earliest first)
           .sort((a, b) => a.startTime.getTime() - b.startTime.getTime());
 
-        console.log(eventsData);
-
         setSocials(eventsData);
       } catch (error) {
         console.error("Error fetching events:", error);

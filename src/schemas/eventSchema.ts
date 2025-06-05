@@ -49,6 +49,8 @@ export const eventSchema = z.object({
       lng: z.number().optional(),
     })
     .optional(),
+  city: z.string().optional(),
+  state: z.string().optional(),
 });
 
 export type EventFormValues = z.infer<typeof eventSchema>;

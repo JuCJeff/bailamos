@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import Cookies from "js-cookie";
 import { FirebaseError } from "firebase/app";
-
-import { auth } from "@/firebase/config";
+import { auth, db } from "@/firebase/config";
+import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 
 const useGoogleLogin = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -17,15 +17,29 @@ const useGoogleLogin = () => {
     setError(null);
 
     const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: "select_account" });
 
     try {
-      // Sign in with Google
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-
       const userId = user.uid;
 
       if (userId) {
+        const organizerRef = doc(db, "organizers", userId);
+        const docSnap = await getDoc(organizerRef);
+
+        if (!docSnap.exists()) {
+          await setDoc(organizerRef, {
+            userId,
+            email: user.email ?? "",
+            firstName: "",
+            lastName: "",
+            socialMediaLink: "",
+            websiteLink: "",
+            createdAt: serverTimestamp(),
+          });
+        }
+
         const idToken = await user.getIdToken();
         Cookies.set("auth_token", idToken, {
           expires: 30,

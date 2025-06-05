@@ -56,6 +56,8 @@ export const useSubmitEvent = () => {
       music: data.music,
       musicPercentages: data.musicPercentages,
       location: data.location,
+      city: data.location?.city ?? "",
+      state: data.location?.state ?? "",
       link: data.link,
       organizerId: user.uid,
       organizerSocialLink,
@@ -67,8 +69,8 @@ export const useSubmitEvent = () => {
       const newDocRef = doc(collection(db, "events"));
       const eventId = newDocRef.id;
 
-      const city = eventData.location?.city ?? "UnknownCity";
-      const state = eventData.location?.state ?? "UnknownState";
+      const city = eventData.location?.city ?? "Unknown City";
+      const state = eventData.location?.state ?? "Unknown State";
 
       const stateRef = doc(db, "states", state);
       const stateSnap = await getDoc(stateRef);

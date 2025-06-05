@@ -1,8 +1,9 @@
 import { useEffect, useState, useRef } from "react";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { ModeToggle } from "@/components/ui/mode-toggle";
+
+import LocationSelection from "./LocationSelection";
 
 import { useNavigate } from "react-router-dom";
 
@@ -50,8 +51,8 @@ const HeadBar = () => {
             Organizer
           </Button>
         </div>
+        <LocationSelection />
         <ModeToggle />
-        <Input placeholder="search" />
       </div>
     </div>
   );

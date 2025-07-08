@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import * as motion from "motion/react-client";
 
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/ui/mode-toggle";
@@ -28,6 +29,10 @@ const HeadBar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [scrolled]);
 
+  const handleLogoClick = () => {
+    navigate("/");
+  };
+
   return (
     <div
       className={`sticky top-0 z-50 flex justify-between px-5 py-8 transition-all max-sm:flex-col gap-2 ${
@@ -39,9 +44,15 @@ const HeadBar = () => {
         transitionTimingFunction: "cubic-bezier(.4, 0, .2, 1)",
       }}
     >
-      <h1 className="scroll-m-20 text-4xl font-bold tracking-tight lg:text-5xl">
+      <motion.h1
+        className="scroll-m-20 text-4xl font-bold tracking-tight lg:text-5xl cursor-pointer"
+        onClick={handleLogoClick}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        transition={{ type: "spring", stiffness: 400, damping: 17 }}
+      >
         Bailamos
-      </h1>
+      </motion.h1>
       <div className="flex gap-2 max-sm:flex-col items-center">
         <div className="flex">
           <Button variant="ghost" onClick={() => navigate("/")}>

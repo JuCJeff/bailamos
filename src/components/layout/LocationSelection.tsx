@@ -26,26 +26,25 @@ import { useLocation } from "@/hooks";
 const LocationSelection = () => {
   const [states, setStates] = useState<string[]>([]);
   const [cities, setCities] = useState<string[]>([]);
-  const [selectedState, setSelectedState] = useState<string>("any");
-  const [selectedCity, setSelectedCity] = useState<string>("any");
   const [initializing, setInitializing] = useState(true);
-
-  const [dialogOpen, setDialogOpen] = useState<boolean>(false); // Dialog visibility state
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
   const { location, setLocation } = useLocation();
 
-  useEffect(() => {
-    if (location && initializing) {
-      setSelectedState(location.state || "any");
-    }
-  }, [location, initializing]);
+
+  const [selectedState, setSelectedState] = useState<string>(
+    location?.state || "any"
+  );
+  const [selectedCity, setSelectedCity] = useState<string>(
+    location?.city || "any"
+  );
 
   useEffect(() => {
     if (location) {
       setSelectedState(location.state || "any");
-      setSelectedCity(location.city ?? "any");
+      setSelectedCity(location.city || "any");
     }
-  }, [location, dialogOpen]);
+  }, [location]);
 
   // Fetch states on mount
   useEffect(() => {

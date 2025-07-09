@@ -3,10 +3,17 @@ import * as motion from "motion/react-client";
 
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/ui/mode-toggle";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 import LocationSelection from "./LocationSelection";
 
 import { useNavigate } from "react-router-dom";
+import { Menu } from "lucide-react";
 
 const HeadBar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -35,7 +42,7 @@ const HeadBar = () => {
 
   return (
     <div
-      className={`sticky top-0 z-50 flex justify-between px-5 py-8 transition-all max-sm:flex-col gap-2 ${
+      className={`sticky top-0 z-50 flex justify-between px-5 py-8 transition-all ${
         scrolled ? "bg-background/90 backdrop-blur" : "bg-transparent"
       }`}
       style={{
@@ -43,6 +50,7 @@ const HeadBar = () => {
         transitionProperty: "background-color",
         transitionTimingFunction: "cubic-bezier(.4, 0, .2, 1)",
       }}
+      ref={headBarRef}
     >
       <motion.h1
         className="scroll-m-20 text-4xl font-bold tracking-tight lg:text-5xl cursor-pointer"
@@ -53,7 +61,9 @@ const HeadBar = () => {
       >
         Bailamos
       </motion.h1>
-      <div className="flex gap-2 max-sm:flex-col items-center">
+      
+      {/* Desktop Navigation */}
+      <div className="hidden md:flex gap-2 items-center">
         <div className="flex">
           <Button variant="ghost" onClick={() => navigate("/")}>
             Home
@@ -64,6 +74,28 @@ const HeadBar = () => {
         </div>
         <LocationSelection />
         <ModeToggle />
+      </div>
+
+      {/* Mobile Navigation */}
+      <div className="flex md:hidden gap-2 items-center">
+        <LocationSelection />
+        <ModeToggle />
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon">
+              <Menu className="h-5 w-5" />
+              <span className="sr-only">Toggle menu</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-48">
+            <DropdownMenuItem onClick={() => navigate("/")}>
+              Home
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate("/organizer")}>
+              Organizer
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   );

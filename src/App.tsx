@@ -2,7 +2,9 @@ import { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { Footer } from "./components/layout";
+import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import ErrorBoundary from "./components/utils/ErrorBoundary";
+import { AuthProvider } from "./contexts";
 import { Toaster } from "sonner";
 
 import "./App.css";
@@ -25,22 +27,31 @@ const PageLoader = () => (
 function App() {
   return (
     <ErrorBoundary>
-      <div className="flex flex-col min-h-screen">
-        <Suspense fallback={<PageLoader />}>
-          <Router basename="/">
-            <div className="flex-grow">
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/organizer" element={<OrganizerPage />} />
-                <Route path="/login" element={<LoginPage />} />
-              </Routes>
-            </div>
-          </Router>
+      <AuthProvider>
+        <div className="flex flex-col min-h-screen">
+          <Suspense fallback={<PageLoader />}>
+            <Router basename="/">
+              <div className="flex-grow">
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route 
+                    path="/organizer" 
+                    element={
+                      <ProtectedRoute requireOrganizer={true}>
+                        <OrganizerPage />
+                      </ProtectedRoute>
+                    } 
+                  />
+                  <Route path="/login" element={<LoginPage />} />
+                </Routes>
+              </div>
+            </Router>
 
-          <Footer />
-          <Toaster className="text-start" position="top-center" richColors />
-        </Suspense>
-      </div>
+            <Footer />
+            <Toaster className="text-start" position="top-center" richColors />
+          </Suspense>
+        </div>
+      </AuthProvider>
     </ErrorBoundary>
   );
 }

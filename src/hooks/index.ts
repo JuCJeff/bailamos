@@ -1,17 +1,10 @@
-import {
-  useEmailLogin,
-  useEmailSignUp,
-  useGoogleLogin,
-  usePasswordResetEmail,
-  useSignOut,
-} from "./auth";
-import { useLocation } from "./useLocation";
+// Auth hooks
+export * from "./auth";
 
-export {
-  useEmailLogin,
-  useEmailSignUp,
-  useGoogleLogin,
-  useLocation,
-  usePasswordResetEmail,
-  useSignOut,
-};
+// Organizer hooks
+export * from "./organizer";
+
+// Other hooks
+export { useFirebaseError } from "./useFirebaseError";
+export { useLocation } from "./useLocation";
+export { useIsOrganizer } from "./useIsOrganizer";

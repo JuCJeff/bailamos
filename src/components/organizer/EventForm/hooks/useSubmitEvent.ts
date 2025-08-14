@@ -100,8 +100,6 @@ export const useSubmitEvent = () => {
       toast.success("Event created!", {
         description: new Date().toLocaleString(),
       });
-
-      console.log("Event successfully created!");
     } catch (error) {
       console.error("Firestore error:", error);
       toast.error("Failed to save event to Firestore.");

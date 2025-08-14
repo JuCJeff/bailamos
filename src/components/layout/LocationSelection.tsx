@@ -31,7 +31,6 @@ const LocationSelection = () => {
 
   const { location, setLocation } = useLocation();
 
-
   const [selectedState, setSelectedState] = useState<string>(
     location?.state || "any"
   );
@@ -103,11 +102,6 @@ const LocationSelection = () => {
 
   const handleSave = () => {
     const cityToUse = selectedCity === "any" ? null : selectedCity;
-
-    console.log("Selected location:", {
-      state: selectedState,
-      city: cityToUse ?? "Any City",
-    });
 
     setLocation({
       state: selectedState,

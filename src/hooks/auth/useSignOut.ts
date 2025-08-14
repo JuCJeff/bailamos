@@ -9,8 +9,7 @@ const useSignOut = () => {
 
   const handleSignOut = async () => {
     try {
-      const response = await signOut(auth);
-      console.log(response);
+      await signOut(auth);
 
       Cookies.remove("auth_token");
       navigate("/login");

@@ -1,6 +1,6 @@
-import React from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
+import React from "react";
+import { Navigate, useLocation } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -11,7 +11,7 @@ interface ProtectedRouteProps {
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
   requireOrganizer = false,
-  redirectTo = '/login',
+  redirectTo = "/login",
 }) => {
   const { isAuthenticated, isOrganizer, loading } = useAuth();
   const location = useLocation();
@@ -34,7 +34,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   if (requireOrganizer && !isOrganizer) {
     // User is authenticated but not an organizer
-    return <Navigate to="/" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   return <>{children}</>;

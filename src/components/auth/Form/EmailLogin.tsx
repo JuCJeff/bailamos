@@ -1,5 +1,6 @@
 import { useForm, Controller } from "react-hook-form";
 import { Loader2 } from "lucide-react";
+import * as motion from "motion/react-client";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -76,16 +77,22 @@ const EmailLogin = () => {
           )}
         </div>
 
-        <Button type="submit" className="w-full" disabled={loading}>
-          {loading ? (
-            <>
-              <Loader2 className="animate-spin" />
-              Please wait
-            </>
-          ) : (
-            "Login"
-          )}
-        </Button>
+        <motion.div
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
+        >
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? (
+              <>
+                <Loader2 className="animate-spin" />
+                Please wait
+              </>
+            ) : (
+              "Login"
+            )}
+          </Button>
+        </motion.div>
 
         {/* Display error if any */}
         {error && <p className="text-red-500 text-start mt-2">{error}</p>}

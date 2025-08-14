@@ -21,6 +21,8 @@ import { mapOptions } from "@/data/googleMapConfigs";
 
 import type { EventFormValues } from "@/schemas/eventSchema";
 import type { LocationDetails } from "@/types/eventTypes";
+import { Skeleton } from "@/components/ui/skeleton";
+import * as motion from "motion/react-client";
 
 const libraries: ("places" | "marker")[] = ["places", "marker"];
 
@@ -36,6 +38,7 @@ const GoogleMapLocation = ({ control, name }: GoogleMapsLocationProps) => {
     useState<LocationDetails | null>(null);
   const [infoWindowOpen, setInfoWindowOpen] = useState(false);
   const [mapCenter, setMapCenter] = useState(defaultCenter);
+  const [mapReady, setMapReady] = useState(false);
 
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
 
@@ -70,7 +73,12 @@ const GoogleMapLocation = ({ control, name }: GoogleMapsLocationProps) => {
     onChange(locationData);
   };
 
-  if (!isLoaded) return <p>Loading map...</p>;
+  if (!isLoaded) return (
+    <div className="space-y-2">
+      <Skeleton className="w-full h-10 mb-2" />
+      <Skeleton className="w-full h-72 rounded-md border" />
+    </div>
+  );
 
   return (
     <FormField
@@ -95,13 +103,14 @@ const GoogleMapLocation = ({ control, name }: GoogleMapsLocationProps) => {
                 />
               </Autocomplete>
 
-              {/* Map Container */}
-              <div className="w-full h-72 rounded-md border">
+              {/* Map Container with Skeleton Overlay */}
+              <div className="w-full h-72 rounded-md border relative overflow-hidden">
                 <GoogleMap
                   center={mapCenter}
                   zoom={15}
                   mapContainerClassName="w-full h-full rounded-2xl"
                   options={mapOptions}
+                  onLoad={() => setMapReady(true)}
                 >
                   {selectedLocation && (
                     <Marker
@@ -145,6 +154,17 @@ const GoogleMapLocation = ({ control, name }: GoogleMapsLocationProps) => {
                     </InfoWindow>
                   )}
                 </GoogleMap>
+                {/* Skeleton overlay that fades out when map is ready */}
+                {!mapReady && (
+                  <motion.div
+                    initial={{ opacity: 1 }}
+                    animate={{ opacity: mapReady ? 0 : 1 }}
+                    transition={{ duration: 0.5 }}
+                    className="absolute inset-0 z-10 pointer-events-none"
+                  >
+                    <Skeleton className="w-full h-full rounded-2xl" />
+                  </motion.div>
+                )}
               </div>
             </div>
           </FormControl>

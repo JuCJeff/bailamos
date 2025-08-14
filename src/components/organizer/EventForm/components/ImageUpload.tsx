@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { Control } from "react-hook-form";
+import * as motion from "motion/react-client";
 
 import ImageUploading, { ImageListType } from "react-images-uploading";
 import { Button } from "@/components/ui/button";
@@ -116,31 +117,87 @@ const ImageUpload = ({ id, value, onChange }: ImageUploadProps) => {
             }}
           />
 
-          <Button
-            type="button"
-            style={
-              isDragging
-                ? { backgroundColor: "limegreen", transition: "0.25s" }
-                : undefined
-            }
-            onClick={onImageUpload}
-            {...dragProps}
+          {/* Upload Button with motion */}
+          <motion.div
+            initial={{ opacity: 1, scale: 1 }}
+            animate={{ 
+              opacity: isDragging ? 0.8 : 1, 
+              scale: isDragging ? 0.98 : 1 
+            }}
+            transition={{ duration: 0.2 }}
           >
-            Click or Drop image here
-          </Button>
+            <Button
+              type="button"
+              style={
+                isDragging
+                  ? { backgroundColor: "limegreen", transition: "0.25s" }
+                  : undefined
+              }
+              onClick={onImageUpload}
+              {...dragProps}
+              className="w-full"
+            >
+              Click or Drop image here
+            </Button>
+          </motion.div>
 
+          {/* Image Preview with motion animations */}
           {preview && (
-            <div>
-              <img src={preview} alt="event preview" className="rounded-2xl" />
-              <div className="flex gap-2 mt-2">
-                <Button type="button" onClick={() => onImageUpdate(0)}>
-                  Update
-                </Button>
-                <Button type="button" onClick={() => onImageRemove(0)}>
-                  Remove
-                </Button>
-              </div>
-            </div>
+            <motion.div
+              key="image-preview"
+              initial={{ opacity: 0, scale: 0.8, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ 
+                type: "spring", 
+                stiffness: 300, 
+                damping: 25,
+                duration: 0.3 
+              }}
+              className="space-y-3"
+            >
+              {/* Image Container */}
+              <motion.div
+                initial={{ borderRadius: "8px" }}
+                animate={{ borderRadius: "16px" }}
+                transition={{ duration: 0.3 }}
+                className="overflow-hidden"
+              >
+                <img 
+                  src={preview} 
+                  alt="event preview" 
+                  className="w-full h-auto rounded-2xl shadow-lg"
+                />
+              </motion.div>
+
+              {/* Action Buttons */}
+              <motion.div 
+                className="flex gap-2"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1, duration: 0.2 }}
+              >
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Button type="button" onClick={() => onImageUpdate(0)}>
+                    Update
+                  </Button>
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Button 
+                    type="button" 
+                    variant="destructive"
+                    onClick={() => onImageRemove(0)}
+                  >
+                    Remove
+                  </Button>
+                </motion.div>
+              </motion.div>
+            </motion.div>
           )}
         </div>
       )}

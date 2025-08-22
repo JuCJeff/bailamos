@@ -1,54 +1,60 @@
-# React + TypeScript + Vite
+# Bailamos - Social Dance Event Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A web application for organizers to post and manage social dance events, with a current focus on Latin social dances like Bachata and Salsa.
 
-Currently, two official plugins are available:
+## What It Does
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Bailamos allows dance organizers to:
+- Create and post social dance events
+- Manage event details (time, location, price, music genres)
+- Upload event images
+- Track event history and analytics
+- Connect with dancers through social media links
 
-## Expanding the ESLint configuration
+Dancers can:
+- Browse upcoming events by location
+- View detailed event information
+- Add events to their calendar
+- Find events based on dance styles and music preferences
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Features
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- **Event Management**: Create, edit, and delete dance events
+- **Location Filtering**: Find events by city and state
+- **Music Genre Tracking**: Specify and display music percentages (Bachata, Salsa, etc.)
+- **Image Upload**: Add visual content to events
+- **Calendar Integration**: One-click calendar additions
+- **Responsive Design**: Works on desktop and mobile devices
+- **Authentication**: Secure organizer login and profile management
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Tech Stack
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Frontend**: React 19 + TypeScript
+- **UI Components**: ShadCN/UI + Tailwind CSS
+- **Backend**: Firebase (Authentication, Firestore, Storage)
+- **Deployment**: GitHub Pages
+- **Build Tool**: Vite
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## Getting Started
+
+1. Clone the repository
+2. Install dependencies: `pnpm install`
+3. Set up Firebase configuration
+4. Run development server: `pnpm dev`
+5. Build for production: `pnpm build`
+
+## Current Focus
+
+The platform is currently optimized for Latin social dance events, with built-in support for:
+- Bachata
+- Salsa
+- Merengue
+- Other Latin dance styles
+
+## Contributing
+
+This is a personal project for the Latin dance community. Feel free to submit issues or feature requests.
+
+## License
+
+MIT

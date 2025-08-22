@@ -39,9 +39,24 @@ Dancers can:
 
 1. Clone the repository
 2. Install dependencies: `pnpm install`
-3. Set up Firebase configuration
+3. Set up Firebase configuration (see Firebase setup below)
 4. Run development server: `pnpm dev`
-5. Build for production: `pnpm build`
+5. Open [http://localhost:5173](http://localhost:5173) to view it in the browser
+
+## Firebase Setup
+
+To run this project locally, you'll need:
+- Firebase project with Authentication, Firestore, and Storage enabled
+- Environment variables configured (see `.env.example`)
+- Firestore security rules set up
+
+## Development Commands
+
+- `pnpm dev` - Start development server
+- `pnpm build` - Build for production (local testing only)
+- `pnpm preview` - Preview production build locally
+- `pnpm lint` - Run ESLint
+- `pnpm test` - Run tests
 
 ## Current Focus
 

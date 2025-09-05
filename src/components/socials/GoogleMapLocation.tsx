@@ -40,8 +40,6 @@ const GoogleMapLocation = ({ location }: GoogleMapLocationProps) => {
 
   return (
     <div className="flex flex-col">
-      <h3 className="text-md text-primary font-bold mt-2">Location</h3>
-
       <Button variant="link" className=" text-sm" onClick={handleClick}>
         <div className="flex items-center gap-1">
           <p className="max-sm:underline">{location.propertyName}</p>

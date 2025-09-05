@@ -66,8 +66,8 @@ const EventCard = ({ social }: EventCardProps) => {
 
         <EventTags tags={social.eventTags} />
 
-        <div className="text-center mt-2 whitespace-pre-line">
-          <h3 className="text-md font-bold">Details</h3>
+        <div className="text-center my-4 whitespace-pre-line">
+          <h3 className="text-lg font-bold">Details</h3>
           <p className="text-sm/6">{social.description}</p>
         </div>
 
@@ -82,16 +82,22 @@ const EventCard = ({ social }: EventCardProps) => {
           />
         </div>
 
-        <div className="text-center mt-2">
-          <h3 className="text-md text-primary font-bold">Cover</h3>
+        <div className="text-center my-4">
+          <h3 className="text-lg font-bold">Cover</h3>
           <p>{social.price ? `$${social.price}` : "Free"}</p>
         </div>
 
-        {social.location && <GoogleMapLocation location={social.location} />}
+        <div className="text-center my-4">
+          <h3 className="text-lg font-bold mt-2">Location</h3>
+          {social.location && <GoogleMapLocation location={social.location} />}
+        </div>
 
-        {musicPercentagesArray.length > 0 && (
-          <MusicPercentages musicList={musicPercentagesArray} />
-        )}
+        <div className="text-center my-4">
+          <h3 className="text-lg font-bold">Music Distribution</h3>
+          {musicPercentagesArray.length > 0 && (
+            <MusicPercentages musicList={musicPercentagesArray} />
+          )}
+        </div>
       </CardContent>
       <CardFooter>
         <FooterContent

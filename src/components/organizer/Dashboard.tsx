@@ -18,20 +18,23 @@ const Dashboard = ({
         </CardHeader>
         <CardContent>
           <div className="flex min-h-full w-full justify-center px-0 sm:px-8">
-            <div className="w-full max-w-md">
+            <div className="w-full max-w-xl">
               <Tabs defaultValue="create-post" className="w-full">
                 <TabsList className="grid w-full grid-cols-3">
                   <TabsTrigger value="create-post">Create Post</TabsTrigger>
                   <TabsTrigger value="post">Posts</TabsTrigger>
                   <TabsTrigger value="profile">Profile</TabsTrigger>
                 </TabsList>
-                <TabsContent value="create-post" className="flex">
+                <TabsContent
+                  value="create-post"
+                  className="flex justify-center"
+                >
                   <EventForm />
                 </TabsContent>
-                <TabsContent value="post">
+                <TabsContent value="post" className="w-full">
                   <PostHistory />
                 </TabsContent>
-                <TabsContent value="profile">
+                <TabsContent value="profile" className="flex justify-center">
                   <Profile />
                 </TabsContent>
               </Tabs>

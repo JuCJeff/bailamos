@@ -61,23 +61,23 @@ const HeadBar = () => {
       >
         Bailamos
       </motion.h1>
-      
+
       {/* Desktop Navigation */}
       <div className="hidden md:flex gap-2 items-center">
+        <LocationSelection />
+        <ModeToggle />
         <div className="flex">
           <Button variant="ghost" onClick={() => navigate("/")}>
-            Home
+            Events
           </Button>
           <Button variant="ghost" onClick={() => navigate("/organizer")}>
             Organizer
           </Button>
         </div>
-        <LocationSelection />
-        <ModeToggle />
       </div>
 
       {/* Mobile Navigation */}
-      <div className="flex md:hidden gap-2 items-center">
+      <div className="flex md:hidden gap-1 items-center">
         <LocationSelection />
         <ModeToggle />
         <DropdownMenu>
@@ -87,10 +87,12 @@ const HeadBar = () => {
               <span className="sr-only">Toggle menu</span>
             </Button>
           </DropdownMenuTrigger>
+
           <DropdownMenuContent align="end" className="w-48">
             <DropdownMenuItem onClick={() => navigate("/")}>
               Home
             </DropdownMenuItem>
+            
             <DropdownMenuItem onClick={() => navigate("/organizer")}>
               Organizer
             </DropdownMenuItem>

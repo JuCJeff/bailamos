@@ -22,7 +22,7 @@ import { mapOptions } from "@/data/googleMapConfigs";
 import type { EventFormValues } from "@/schemas/eventSchema";
 import type { LocationDetails } from "@/types/eventTypes";
 import { Skeleton } from "@/components/ui/skeleton";
-import * as motion from "motion/react-client";
+import { motion, AnimatePresence } from "motion/react";
 
 const libraries: ("places" | "marker")[] = ["places", "marker"];
 
@@ -155,16 +155,18 @@ const GoogleMapLocation = ({ control, name }: GoogleMapsLocationProps) => {
                   )}
                 </GoogleMap>
                 {/* Skeleton overlay that fades out when map is ready */}
-                {!mapReady && (
-                  <motion.div
-                    initial={{ opacity: 1 }}
-                    animate={{ opacity: mapReady ? 0 : 1 }}
-                    transition={{ duration: 0.5 }}
-                    className="absolute inset-0 z-10 pointer-events-none"
-                  >
-                    <Skeleton className="w-full h-full rounded-2xl" />
-                  </motion.div>
-                )}
+                <AnimatePresence>
+                  {!mapReady && (
+                    <motion.div
+                      initial={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.5 }}
+                      className="absolute inset-0 z-10 pointer-events-none"
+                    >
+                      <Skeleton className="w-full h-full rounded-2xl" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
           </FormControl>

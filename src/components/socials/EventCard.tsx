@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -6,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import EventTags from "./EventTags";
 import EventTime from "./EventTime";
@@ -24,6 +26,8 @@ type EventCardProps = {
 };
 
 const EventCard = ({ social }: EventCardProps) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   const musicPercentagesArray = social.musicPercentages
     ? (() => {
         const values = Object.values(social.musicPercentages).filter(
@@ -43,7 +47,7 @@ const EventCard = ({ social }: EventCardProps) => {
     : [];
 
   return (
-    <Card className="break-inside-avoid mb-4 mx-2 shadow hover:border-yellow-500 hover:shadow-[0_0_1em_rgba(255,223,0,0.6)] transition-all duration-250 ease-in-out">
+    <Card className="w-full shadow hover:border-yellow-500 hover:shadow-[0_0_1em_rgba(255,223,0,0.6)] transition-all duration-250 ease-out">
       <CardHeader>
         <CardTitle className="text-2xl">{social.title}</CardTitle>
         <CardDescription className="flex flex-col">
@@ -57,11 +61,19 @@ const EventCard = ({ social }: EventCardProps) => {
         <CalendarLink event={social} />
 
         {social.imageUrl && (
-          <img
-            src={social.imageUrl}
-            alt={social.title}
-            className="w-full rounded mt-2"
-          />
+          <div className="relative mt-2">
+            {!imageLoaded && (
+              <Skeleton className="w-full aspect-video rounded" />
+            )}
+            <img
+              src={social.imageUrl}
+              alt={social.title}
+              className={`w-full rounded transition-opacity duration-300 ${
+                imageLoaded ? "opacity-100" : "opacity-0 absolute inset-0"
+              }`}
+              onLoad={() => setImageLoaded(true)}
+            />
+          </div>
         )}
 
         <EventTags tags={social.eventTags} />

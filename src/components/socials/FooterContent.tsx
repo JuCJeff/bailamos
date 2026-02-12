@@ -14,11 +14,13 @@ const FooterContent = ({
   socialLink,
   websiteLink,
 }: FooterContentProps) => {
-  const handleWebsiteClick = () => {
+  const handleWebsiteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     window.open(websiteLink, "_blank", "noopener,noreferrer");
   };
 
-  const handleSocialClick = () => {
+  const handleSocialClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     window.open(socialLink, "_blank", "noopener,noreferrer");
   };
 

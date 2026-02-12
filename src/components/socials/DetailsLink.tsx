@@ -5,7 +5,8 @@ interface DetailsLinkProps {
 }
 
 const DetailsLink = ({ link }: DetailsLinkProps) => {
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     window.open(link, "_blank", "noopener,noreferrer");
   };
 

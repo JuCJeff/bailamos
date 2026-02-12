@@ -1,7 +1,7 @@
 import { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import { Footer } from "./components/layout";
+import { Footer, HeadBar } from "./components/layout";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import ErrorBoundary from "./components/utils/ErrorBoundary";
 import { AuthProvider } from "./contexts";
@@ -13,6 +13,7 @@ import "./App.css";
 const HomePage = lazy(() => import("./pages/HomePage"));
 const OrganizerPage = lazy(() => import("./pages/OrganizerPage"));
 const LoginPage = lazy(() => import("./pages/LoginPage"));
+const EventPage = lazy(() => import("./pages/EventPage"));
 
 // Loading component for better UX
 const PageLoader = () => (
@@ -26,33 +27,35 @@ const PageLoader = () => (
 
 function App() {
   return (
-    <ErrorBoundary>
-      <AuthProvider>
-        <div className="flex flex-col min-h-screen">
-          <Suspense fallback={<PageLoader />}>
-            <Router basename="/">
-              <div className="flex-grow">
+    <AuthProvider>
+      <div className="flex flex-col min-h-screen">
+        <Suspense fallback={<PageLoader />}>
+          <Router basename="/">
+            <HeadBar />
+            <div className="flex-grow">
+              <ErrorBoundary>
                 <Routes>
                   <Route path="/" element={<HomePage />} />
-                  <Route 
-                    path="/organizer" 
+                  <Route
+                    path="/organizer"
                     element={
                       <ProtectedRoute requireOrganizer={true}>
                         <OrganizerPage />
                       </ProtectedRoute>
-                    } 
+                    }
                   />
                   <Route path="/login" element={<LoginPage />} />
+                  <Route path="/event/:eventId" element={<EventPage />} />
                 </Routes>
-              </div>
-            </Router>
+              </ErrorBoundary>
+            </div>
+          </Router>
 
-            <Footer />
-            <Toaster className="text-start" position="top-center" richColors />
-          </Suspense>
-        </div>
-      </AuthProvider>
-    </ErrorBoundary>
+          <Footer />
+          <Toaster className="text-start" position="top-center" richColors />
+        </Suspense>
+      </div>
+    </AuthProvider>
   );
 }
 

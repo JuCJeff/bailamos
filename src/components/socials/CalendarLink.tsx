@@ -21,7 +21,8 @@ const CalendarLink = ({ event }: Readonly<CalendarLinkProps>) => {
 
   const googleLink = google(calendarEvent);
 
-  const handleAddToGoogleCalendarClick = () => {
+  const handleAddToGoogleCalendarClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     window.open(googleLink, "_blank", "noopener,noreferrer");
   };
 

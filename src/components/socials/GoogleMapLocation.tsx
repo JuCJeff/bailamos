@@ -32,7 +32,8 @@ const GoogleMapLocation = ({ location }: GoogleMapLocationProps) => {
     libraries: libraries,
   });
 
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     window.open(location.googleMapsUrl, "_blank", "noopener,noreferrer");
   };
 
@@ -47,7 +48,7 @@ const GoogleMapLocation = ({ location }: GoogleMapLocationProps) => {
       </Button>
 
       {/* Map Container */}
-      <div className="w-full h-72 rounded-md border mt-2">
+      <div className="w-full h-72 rounded-md border mt-2" onClick={(e) => e.stopPropagation()}>
         <GoogleMap
           center={mapCenter}
           zoom={15}

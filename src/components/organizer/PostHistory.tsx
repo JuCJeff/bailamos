@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   collection,
   getDocs,
@@ -30,6 +31,8 @@ const PostHistory = () => {
   const [user] = useAuthState(auth);
   const [previousEvents, setPreviousEvents] = useState<Social[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!user) return;
@@ -92,45 +95,68 @@ const PostHistory = () => {
     }
   };
 
+  const handleEventClick = (eventId: string) => {
+    navigate(`/event/${eventId}`);
+  };
+
   if (previousEvents.length === 0) {
     return <p className="mt-2">No previously events posted</p>;
   }
 
   return (
-    <div className="flex flex-col">
-      {previousEvents.map((event) => (
-        <div key={event.id} className="border rounded-md p-2 m-2 relative">
-          <EventCard social={event} />
+    <div className="border rounded-md">
+      <div className="flex flex-col space-y-6">
+        {previousEvents.map((event) => (
+          <div key={event.id} className="border-b pb-4 last:border-b-0">
+            <div
+              className="cursor-pointer rounded-md p-2"
+              onClick={() => handleEventClick(event.id)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleEventClick(event.id);
+                }
+              }}
+              role="button"
+              tabIndex={0}
+            >
+              <EventCard social={event} />
+            </div>
 
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="destructive">Delete</Button>
-            </DialogTrigger>
+            <div className="flex justify-center mt-4">
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="destructive" size="sm">
+                    Delete
+                  </Button>
+                </DialogTrigger>
 
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>
-                  Are you sure you want to delete this event?
-                </DialogTitle>
-                <DialogDescription>
-                  This will permanently delete the event from both your
-                  organizer account and the global events list
-                </DialogDescription>
-              </DialogHeader>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>
+                      Are you sure you want to delete this event?
+                    </DialogTitle>
+                    <DialogDescription>
+                      This will permanently delete the event from both your
+                      organizer account and the global events list
+                    </DialogDescription>
+                  </DialogHeader>
 
-              <DialogFooter>
-                <Button variant="outline">Cancel</Button>
-                <Button
-                  variant="destructive"
-                  onClick={() => handleDelete(event.id)}
-                >
-                  Confirm Delete
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        </div>
-      ))}
+                  <DialogFooter>
+                    <Button variant="outline">Cancel</Button>
+                    <Button
+                      variant="destructive"
+                      onClick={() => handleDelete(event.id)}
+                    >
+                      Confirm Delete
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

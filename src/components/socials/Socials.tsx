@@ -123,7 +123,7 @@ const Socials = () => {
         </p>
         
         {!showPastEvents && !hasUpcomingEvents && (
-          <div className="space-y-3">
+          <div className="flex flex-col space-y-3 items-center">
             <Button 
               onClick={() => setShowPastEvents(true)}
               variant="outline"
